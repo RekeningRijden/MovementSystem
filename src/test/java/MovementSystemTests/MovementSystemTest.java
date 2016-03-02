@@ -48,6 +48,6 @@ public class MovementSystemTest {
     // public void hello() {}
     @Test
     public void testNewString() {
-        assertTrue(movementSystem.test().equals("test"));
+        assertTrue(MovementSystem.newString().equals("test"));
     }
 }

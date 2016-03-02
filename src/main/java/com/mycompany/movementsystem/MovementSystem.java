@@ -11,7 +11,11 @@ package com.mycompany.movementsystem;
  */
 public class MovementSystem {
     
-    public String test(){
+    public static void main(String[] args) {
+        System.out.println(newString());
+    }
+    
+    public static String newString(){
         return "test";
     }
 }
