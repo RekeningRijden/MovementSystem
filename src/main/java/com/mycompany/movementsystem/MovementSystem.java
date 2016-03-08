@@ -11,7 +11,7 @@ package com.mycompany.movementsystem;
  */
 public class MovementSystem {
     
-    public String test(){
+    public String testMethod(){
         return "test";
     }
 }
