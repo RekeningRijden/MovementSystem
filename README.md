@@ -7,6 +7,6 @@ Rekeningrijden EU - S63
 Groep 1 (A)
 -- Eric de Regter
 -- Maikel Hoeks
--- Marijn Verwegen
+-- Marijn 
 -- Martijn van Dijk
 -- Sam Jansen
