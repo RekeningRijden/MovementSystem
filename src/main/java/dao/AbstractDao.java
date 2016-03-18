@@ -15,7 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
  */
 public abstract class AbstractDao<EntityType> {
 
-    @PersistenceContext
+    @PersistenceContext(name = "MovementPU")
     private EntityManager entityManager;
 
     /**

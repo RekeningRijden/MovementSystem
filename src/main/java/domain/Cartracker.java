@@ -21,6 +21,7 @@ public class Cartracker implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String autorisationCode;
+    @OneToMany
     private List<TrackingPeriod> movements;
 
     public Cartracker() {

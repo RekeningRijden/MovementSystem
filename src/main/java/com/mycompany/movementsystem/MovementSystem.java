@@ -1,6 +1,9 @@
 package com.mycompany.movementsystem;
 
+import domain.Cartracker;
+import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import service.CarTrackerService;
 import service.PositionService;
 import service.TrackingPeriodService;
