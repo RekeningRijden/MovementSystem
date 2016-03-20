@@ -24,6 +24,7 @@ import service.CartrackerService;
 @Path("/trackers")
 public class CartrackerResource {
 
+    //CartrackerService
     CartrackerService trackerService = new CartrackerService();
 
     @GET

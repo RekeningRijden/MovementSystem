@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Eric
+ * @author Eric de Regter
  */
 public interface CartrackerDao {
     
