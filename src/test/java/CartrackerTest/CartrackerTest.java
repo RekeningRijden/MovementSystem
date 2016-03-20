@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MovementSystemTests;
+package CartrackerTest;
 
+import dao.CartrackerDaoImp;
 import domain.Cartracker;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,27 +13,22 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
-import org.mockito.MockitoAnnotations;
-import service.CarTrackerService;
+import service.CartrackerService;
 
 /**
  *
- * @author maikel
+ * @author Eric
  */
 public class CartrackerTest {
     
-    @Mock
-    CarTrackerService carTrackerService;
+    private CartrackerService cartrackerService;
     
     public CartrackerTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        
     }
     
     @AfterClass
@@ -41,8 +37,7 @@ public class CartrackerTest {
     
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        carTrackerService = mock(CarTrackerService.class);
+        cartrackerService = new CartrackerService();
     }
     
     @After
@@ -56,8 +51,15 @@ public class CartrackerTest {
     // public void hello() {}
     
     @Test
-    public void createTest(){
-        carTrackerService.create(new Cartracker());
-        Mockito.verify(carTrackerService).create(any(Cartracker.class));
+    public void createCartrackerShouldReturnCreatedCartracker() {
+        assertEquals(3, cartrackerService.getAllCartrackers().size());
+        
+        Cartracker cartracker = new Cartracker(4L, "Eric");
+        Cartracker createdCartracker = cartrackerService.addNewCartracker(cartracker);
+        
+        assertEquals((Long)4L, createdCartracker.getId());
+        assertEquals("Eric", createdCartracker.getAutorisationCode());
+        
+        assertEquals(4, cartrackerService.getAllCartrackers().size());
     }
 }

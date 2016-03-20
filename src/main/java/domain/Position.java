@@ -19,19 +19,21 @@ import javax.persistence.TemporalType;
  *
  * @author maikel
  */
-@Entity
-@Table(name = "Position")
 public class Position implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     private Double longitude;
     private Double latitude;
 
     public Position() {
+    }
+    
+    public Position(Long id, Date date, Double longitude, Double latitude) {
+        this.id = id;
+        this.date = date;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public Long getId() {

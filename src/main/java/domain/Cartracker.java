@@ -6,25 +6,27 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.*;
 
 /**
  *
  * @author maikel
  */
-@Entity
-@Table(name = "Cartracker")
 public class Cartracker implements Serializable{
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String autorisationCode;
-    @OneToMany
     private List<TrackingPeriod> movements;
 
     public Cartracker() {
+        this.movements = new ArrayList<>();
+    }
+    
+    public Cartracker(Long id, String authorisatieCode) {
+        this.id = id;
+        this.autorisationCode = authorisatieCode;
+        this.movements = new ArrayList<>();
     }
 
     public Long getId() {
@@ -49,6 +51,15 @@ public class Cartracker implements Serializable{
 
     public void setMovements(List<TrackingPeriod> movements) {
         this.movements = movements;
+    }
+    
+    public void addNewTrackingPeriod(TrackingPeriod trackingPeriod) {
+        this.movements.add(trackingPeriod);
+    }
+    
+    @Override
+    public String toString() {
+        return this.getAutorisationCode();
     }
     
 }

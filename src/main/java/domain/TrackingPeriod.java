@@ -6,37 +6,31 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 /**
  *
  * @author maikel
  */
-@Entity
-@Table(name = "TrackingPeriod")
 public class TrackingPeriod implements Serializable{
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long serialNumber;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date startedTracking;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date finishedTracking;
-    @OneToMany
     private List<Position> positions;
 
     public TrackingPeriod() {
+        positions = new ArrayList();
+    }
+    
+    public TrackingPeriod(Long id, Long serialNumber, Date startedTracking, Date finishedTracking, List<Position> positions) {
+        this.id = id;
+        this.serialNumber = serialNumber;
+        this.startedTracking = startedTracking;
+        this.finishedTracking = finishedTracking;
+        this.positions = positions;
     }
 
     public Long getId() {

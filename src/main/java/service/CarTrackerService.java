@@ -5,21 +5,32 @@
  */
 package service;
 
-import dao.CarTrackerDao;
+import dao.CartrackerDao;
+import dao.CartrackerDaoImp;
 import domain.Cartracker;
-import java.io.Serializable;
-import javax.ejb.Stateless;
+import java.util.List;
 
 /**
  *
- * @author maikel
+ * @author Eric
  */
-@Stateless
-public class CarTrackerService extends CarTrackerDao implements Serializable {
-
-    @Override
-    protected Class<Cartracker> getEntityClass() {
-        return Cartracker.class;
+public class CartrackerService {
+    
+    private CartrackerDao cartrackerDao;
+    
+    public CartrackerService() {
+        cartrackerDao = new CartrackerDaoImp();
     }
     
+    public Cartracker addNewCartracker(Cartracker cartracker) {
+        return cartrackerDao.create(cartracker);
+    }
+    
+    public Cartracker getCartrackerWithId(Long id) {
+        return cartrackerDao.findById(id);
+    }
+    
+    public List<Cartracker> getAllCartrackers() {
+        return cartrackerDao.findAll();
+    }
 }
