@@ -84,15 +84,6 @@ public class CarTrackerResourceTest {
     }
 
     @Test
-    public void createCartrackerTest() {
-        //Build a CarTracker and add it to the database
-        Cartracker cartracker = buildCartracker("tracker1");
-        cartrackerResource.addNewTracker(cartracker);
-
-        assertEquals("Wrong amount of CarTracker in the database", 1, cartrackerResource.getTrackers().size());
-    }
-
-    @Test
     public void getCartrackerByIdTest() {
         //Build a CarTracker and add it to the database
         Cartracker cartracker = buildCartracker("tracker2");
@@ -102,20 +93,6 @@ public class CarTrackerResourceTest {
         Cartracker result = cartrackerResource.getCartrackerById(cartracker.getId());
 
         assertSame("Not the correct CarTracker retrieved", cartracker, result);
-    }
-
-    @Test
-    public void getTrackingPeriodsFromCartrackerByIdTest() {
-        //Build a CarTracker and add it to the database
-        Cartracker cartracker = buildCartracker("tracker3");
-        cartrackerResource.addNewTracker(cartracker);
-
-        //Get the trackingPeriods by built carTracker id
-        List<TrackingPeriod> trackingPeriods = cartrackerResource.getMovementsFromCartrackerWithId(cartracker.getId());
-
-        assertEquals("Wrong amount of trackingPeriods received", 2, trackingPeriods.size());
-        assertEquals("Wrong first trackingPeriods received", cartracker.getMovements().get(0).getSerialNumber(), trackingPeriods.get(0).getSerialNumber());
-        assertEquals("Wrong second trackingPeriods received", cartracker.getMovements().get(1).getSerialNumber(), trackingPeriods.get(1).getSerialNumber());
     }
 
     @Test
@@ -138,6 +115,32 @@ public class CarTrackerResourceTest {
         assertEquals("Wrong second CarTracker received", carTracker2.getId(), carTrackers.get(1).getId());
         assertEquals("Wrong third CarTracker received", carTracker3.getId(), carTrackers.get(2).getId());
     }
+
+    @Test
+    public void createCartrackerTest() {
+        //Build a CarTracker and add it to the database
+        Cartracker cartracker = buildCartracker("tracker1");
+        cartrackerResource.addNewTracker(cartracker);
+
+        assertEquals("Wrong amount of CarTracker in the database", 1, cartrackerResource.getTrackers().size());
+    }
+
+
+
+    @Test
+    public void getTrackingPeriodsFromCartrackerByIdTest() {
+        //Build a CarTracker and add it to the database
+        Cartracker cartracker = buildCartracker("tracker3");
+        cartrackerResource.addNewTracker(cartracker);
+
+        //Get the trackingPeriods by built carTracker id
+        List<TrackingPeriod> trackingPeriods = cartrackerResource.getMovementsFromCartrackerWithId(cartracker.getId());
+
+        assertEquals("Wrong amount of trackingPeriods received", 2, trackingPeriods.size());
+        assertEquals("Wrong first trackingPeriods received", cartracker.getMovements().get(0).getSerialNumber(), trackingPeriods.get(0).getSerialNumber());
+        assertEquals("Wrong second trackingPeriods received", cartracker.getMovements().get(1).getSerialNumber(), trackingPeriods.get(1).getSerialNumber());
+    }
+
 
     @Test
     public void addTrackingPeriodTest() {
