@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import service.CartrackerService;
+import service.TrackingPeriodService;
 
 /**
  *
@@ -26,6 +27,7 @@ public class CartrackerResource {
 
     //CartrackerService
     CartrackerService trackerService = new CartrackerService();
+    TrackingPeriodService trackingPeriodService = new TrackingPeriodService();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,5 +56,12 @@ public class CartrackerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<TrackingPeriod> getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId) {
         return trackerService.getCartrackerWithId(trackerId).getMovements();
+    }
+    
+    @GET
+    @Path("/{trackerId}/movements/{serialNumber}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public TrackingPeriod getTrackingPeriodWithSerialNumber(@PathParam("trackerId") Long trackerId, @PathParam("serialNumber") Long serialNumber) {
+        return trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber);
     }
 }
