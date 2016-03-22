@@ -18,7 +18,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import service.CartrackerService;
 import service.TrackingPeriodService;
@@ -59,7 +61,10 @@ public class CartrackerResource {
     @Path("/{trackerId}/movements")
     @Produces(MediaType.APPLICATION_JSON)
     public List<TrackingPeriod> getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId) {
-        return cartrackerService.findById(trackerId).getMovements();
+        if (cartrackerService.findById(trackerId) == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartrackerService.findById(trackerId));
     }
 
     @GET
