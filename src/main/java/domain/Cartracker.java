@@ -5,9 +5,16 @@
  */
 package domain;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +33,7 @@ public class Cartracker implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String autorisationCode;
+    private String authorisationCode;
     @Transient
     private List<TrackingPeriod> movements;
 
@@ -35,7 +42,7 @@ public class Cartracker implements Serializable{
     }
     
     public Cartracker(String authorisationCode) {
-        this.autorisationCode = authorisationCode;
+        this.authorisationCode = generateAuthorisationCode(authorisationCode);
         this.movements = new ArrayList<>();
     }
 
@@ -48,11 +55,11 @@ public class Cartracker implements Serializable{
     }
 
     public String getAutorisationCode() {
-        return autorisationCode;
+        return authorisationCode;
     }
 
-    public void setAutorisationCode(String autorisationCode) {
-        this.autorisationCode = autorisationCode;
+    public void setAutorisationCode(String authorisationCode) {
+        this.authorisationCode = generateAuthorisationCode(authorisationCode);
     }
 
     public List<TrackingPeriod> getMovements() {
@@ -65,6 +72,36 @@ public class Cartracker implements Serializable{
     
     public void addNewTrackingPeriod(TrackingPeriod trackingPeriod) {
         this.movements.add(trackingPeriod);
+    }
+    
+    public String generateAuthorisationCode(String authorisationCode) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(authorisationCode.getBytes());
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+
+            return sb.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+        }
+        finally {
+            return "";
+        }
+    }
+    
+    public void saveAuthorisationCodeFile() {
+        try {
+            byte data[] = getAutorisationCode().getBytes();
+            Path file = Paths.get("authcodetestfile");
+            Files.write(file, data);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }
     
     @Override
