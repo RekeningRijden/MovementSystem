@@ -1,36 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package service;
 
+/**
+ * Created by Sam on 22-3-2016.
+ */
+
+import java.io.Serializable;
+
+import javax.ejb.Stateless;
+
 import dao.CartrackerDao;
-import dao.CartrackerDaoImp;
 import domain.Cartracker;
-import java.util.List;
 
 /**
- *
- * @author Eric
+ * @author maikel
  */
-public class CartrackerService {
-    
-    private CartrackerDao cartrackerDao;
-    
-    public CartrackerService() {
-        cartrackerDao = new CartrackerDaoImp();
-    }
-    
-    public Cartracker addNewCartracker(Cartracker cartracker) {
-        return cartrackerDao.create(cartracker);
-    }
-    
-    public Cartracker getCartrackerWithId(Long id) {
-        return cartrackerDao.findById(id);
-    }
-    
-    public List<Cartracker> getAllCartrackers() {
-        return cartrackerDao.findAll();
+@Stateless
+public class CartrackerService extends CartrackerDao implements Serializable {
+
+    @Override
+    protected Class<Cartracker> getEntityClass() {
+        return Cartracker.class;
     }
 }

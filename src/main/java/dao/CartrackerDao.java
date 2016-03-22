@@ -6,17 +6,11 @@
 package dao;
 
 import domain.Cartracker;
-import java.util.List;
 
 /**
  *
- * @author Eric de Regter
+ * @author maikel
  */
-public interface CartrackerDao {
+public abstract class CartrackerDao extends AbstractDao<Cartracker>{
     
-    Cartracker create(Cartracker cartracker);
-    
-    Cartracker findById(Long id);
-    
-    List<Cartracker> findAll();
 }

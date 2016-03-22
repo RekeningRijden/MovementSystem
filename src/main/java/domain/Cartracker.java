@@ -34,8 +34,8 @@ public class Cartracker implements Serializable{
         this.movements = new ArrayList<>();
     }
     
-    public Cartracker(String authorisatieCode) {
-        this.autorisationCode = authorisatieCode;
+    public Cartracker(String authorisationCode) {
+        this.autorisationCode = authorisationCode;
         this.movements = new ArrayList<>();
     }
 

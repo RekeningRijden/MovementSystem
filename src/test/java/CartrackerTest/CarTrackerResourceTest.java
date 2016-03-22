@@ -108,7 +108,7 @@ public class CarTrackerResourceTest {
         carTracker3.setAutorisationCode("tracker6");
 
         //Get all the carTrackers in the database
-        List<Cartracker> carTrackers = cartrackerResource.getTrackers();
+        List<Cartracker> carTrackers = cartrackerResource.getAllTrackers();
 
         assertEquals("Wrong amount of CarTrackers received", 3, carTrackers.size());
         assertEquals("Wrong first CarTracker received", carTracker.getId(), carTrackers.get(0).getId());
@@ -122,7 +122,7 @@ public class CarTrackerResourceTest {
         Cartracker cartracker = buildCartracker("tracker1");
         cartrackerResource.addNewTracker(cartracker);
 
-        assertEquals("Wrong amount of CarTracker in the database", 1, cartrackerResource.getTrackers().size());
+        assertEquals("Wrong amount of CarTracker in the database", 1, cartrackerResource.getAllTrackers().size());
     }
 
 
