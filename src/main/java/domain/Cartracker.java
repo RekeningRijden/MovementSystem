@@ -5,16 +5,9 @@
  */
 package domain;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,13 +30,14 @@ public class Cartracker implements Serializable{
     @Transient
     private List<TrackingPeriod> movements;
 
-    public Cartracker() {
+    protected Cartracker() {
+        this.authorisationCode = "";
         this.movements = new ArrayList<>();
     }
     
     public Cartracker(String authorisationCode) {
-        this.authorisationCode = generateAuthorisationCode(authorisationCode);
-        this.movements = new ArrayList<>();
+        this();
+        this.authorisationCode = authorisationCode;
     }
 
     public Long getId() {
@@ -54,12 +48,12 @@ public class Cartracker implements Serializable{
         this.id = id;
     }
 
-    public String getAutorisationCode() {
+    public String getAuthorisationCode() {
         return authorisationCode;
     }
 
-    public void setAutorisationCode(String authorisationCode) {
-        this.authorisationCode = generateAuthorisationCode(authorisationCode);
+    public void setAuthorisationCode(String authorisationCode) {
+        this.authorisationCode = authorisationCode;
     }
 
     public List<TrackingPeriod> getMovements() {
@@ -73,40 +67,4 @@ public class Cartracker implements Serializable{
     public void addNewTrackingPeriod(TrackingPeriod trackingPeriod) {
         this.movements.add(trackingPeriod);
     }
-    
-    public String generateAuthorisationCode(String authorisationCode) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(authorisationCode.getBytes());
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
-            }
-
-            return sb.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-        }
-        finally {
-            return "";
-        }
-    }
-    
-    public void saveAuthorisationCodeFile() {
-        try {
-            byte data[] = getAutorisationCode().getBytes();
-            Path file = Paths.get("authcodetestfile");
-            Files.write(file, data);
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-    }
-    
-    @Override
-    public String toString() {
-        return this.getAutorisationCode();
-    }
-    
 }
