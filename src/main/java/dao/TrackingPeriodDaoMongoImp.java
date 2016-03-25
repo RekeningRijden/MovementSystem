@@ -31,7 +31,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
 
     public static final String MONGO_COLLECTION = "trackingperiods";
 
-    private final MongoClient mongoClient = new MongoClient();
+    private final MongoClient mongoClient = new MongoClient("s63a-mongo");
     private final MongoDatabase db = mongoClient.getDatabase("s63a");
 
     private Long getNewSerialNumber(Cartracker ct) {
