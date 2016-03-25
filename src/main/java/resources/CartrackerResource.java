@@ -86,6 +86,12 @@ public class CartrackerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public TrackingPeriod addTrackingPeriodForCartracker(@PathParam("trackerId") Long trackerId, TrackingPeriod trackingPeriod) {
         System.out.println("Added TrackingPeriod - sn: " + trackingPeriod.getSerialNumber() + ", nr of pos: " + trackingPeriod.getPositions().size());
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        if (cartracker == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriodService.addTrackingPeriodForCartracker(trackingPeriod, cartracker);
+    }
 
     @GET
     @Path("/{trackerId}/movements/{serialNumber}")
