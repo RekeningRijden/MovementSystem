@@ -79,6 +79,20 @@ public class CartrackerResource {
         return trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartrackerService.findById(trackerId));
     }
 
+    //TODO - Implementatie van de trackingPeriodService/Dao voor de MongoDB
+    @POST
+    @Path("/{trackerId}/movements")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public TrackingPeriod addTrackingPeriodForCartracker(@PathParam("trackerId") Long trackerId, TrackingPeriod trackingPeriod) {
+        System.out.println("Added TrackingPeriod - sn: " + trackingPeriod.getSerialNumber() + ", nr of pos: " + trackingPeriod.getPositions().size());
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        if (cartracker == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriodService.addTrackingPeriodForCartracker(trackingPeriod, cartracker);
+    }
+
     @GET
     @Path("/{trackerId}/movements/{serialNumber}")
     @Produces(MediaType.APPLICATION_JSON)
