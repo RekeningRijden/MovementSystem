@@ -57,6 +57,18 @@ public class CartrackerResource {
         return cartrackerService.create(cartracker);
     }
 
+    @POST
+    @Path("/{trackerId}/movements")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public TrackingPeriod getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId, TrackingPeriod tp) {
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        if (cartracker == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriodService.addTrackingPeriodForCartracker(tp, cartracker);
+    }
+
     @GET
     @Path("/{trackerId}/movements")
     @Produces(MediaType.APPLICATION_JSON)
@@ -74,13 +86,15 @@ public class CartrackerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public TrackingPeriod addTrackingPeriodForCartracker(@PathParam("trackerId") Long trackerId, TrackingPeriod trackingPeriod) {
         System.out.println("Added TrackingPeriod - sn: " + trackingPeriod.getSerialNumber() + ", nr of pos: " + trackingPeriod.getPositions().size());
-        Cartracker cartracker = cartrackerService.findById(trackerId);
-        return trackingPeriodService.addTrackingPeriodForCartracker(trackingPeriod, cartracker);
-    }
+
     @GET
     @Path("/{trackerId}/movements/{serialNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public TrackingPeriod getTrackingPeriodWithSerialNumber(@PathParam("trackerId") Long trackerId, @PathParam("serialNumber") Long serialNumber) {
-        return trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber);
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        if (cartracker == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber, cartracker);
     }
 }

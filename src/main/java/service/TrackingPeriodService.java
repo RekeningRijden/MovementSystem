@@ -6,7 +6,8 @@
 package service;
 
 import dao.TrackingPeriodDao;
-import dao.TrackingPeriodDaoImp;
+import dao.TrackingPeriodDaoCollectionImp;
+import dao.TrackingPeriodDaoMongoImp;
 import domain.Cartracker;
 import domain.TrackingPeriod;
 import java.util.List;
@@ -20,15 +21,15 @@ public class TrackingPeriodService {
     private TrackingPeriodDao trackingPeriodDao;
     
     public TrackingPeriodService() {
-        trackingPeriodDao = new TrackingPeriodDaoImp();
+        trackingPeriodDao = new TrackingPeriodDaoMongoImp();
     }
     
     public TrackingPeriod addTrackingPeriodForCartracker(TrackingPeriod tp, Cartracker cartracker) {
         return trackingPeriodDao.create(tp, cartracker);
     }
     
-    public TrackingPeriod getTrackingPeriodBySerialNumber(Long SerialNumber) {
-        return trackingPeriodDao.findBySerialNumber(SerialNumber, null);
+    public TrackingPeriod getTrackingPeriodBySerialNumber(Long SerialNumber, Cartracker cartracker) {
+        return trackingPeriodDao.findBySerialNumber(SerialNumber, cartracker);
     }
     
     public List<TrackingPeriod> getAllTrackingPeriodsFromCartracker(Cartracker cartracker) {

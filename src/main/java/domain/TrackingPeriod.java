@@ -5,16 +5,27 @@
  */
 package domain;
 
+import dao.TrackingPeriodDaoMongoImp;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import static java.util.Arrays.asList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bson.Document;
+
 /**
  *
  * @author maikel
  */
-public class TrackingPeriod implements Serializable{
-    
+public class TrackingPeriod implements Serializable {
+
     private Long id;
     private Long serialNumber;
     private Date startedTracking;
@@ -24,7 +35,7 @@ public class TrackingPeriod implements Serializable{
     public TrackingPeriod() {
         positions = new ArrayList();
     }
-    
+
     public TrackingPeriod(Long id, Long serialNumber, Date startedTracking, Date finishedTracking, List<Position> positions) {
         this.id = id;
         this.serialNumber = serialNumber;
@@ -71,5 +82,34 @@ public class TrackingPeriod implements Serializable{
 
     public void setPositions(List<Position> positions) {
         this.positions = positions;
+    }
+
+    public void addPosition(Position position) {
+        this.positions.add(position);
+    }
+
+    public Document toDocument() {
+        Document document = new Document();
+        document.append("serialNumber", this.serialNumber);
+        document.append("startedTracking", this.startedTracking);
+        document.append("finishedTracking", this.finishedTracking);
+        List<Document> positionsList = new ArrayList<>();
+        for (Position position : this.positions) {
+            positionsList.add(position.toDocument());
+        }
+        document.append("positions", positionsList);
+        return document;
+    }
+
+    public static TrackingPeriod fromDocument(Document document) {
+        TrackingPeriod trackingPeriod = new TrackingPeriod();
+        trackingPeriod.setSerialNumber((Long) document.get("serialNumber"));
+        trackingPeriod.setStartedTracking((Date) document.get("startedTracking"));
+        trackingPeriod.setFinishedTracking((Date) document.get("finishedTracking"));
+        List<Document> positionsAsList = (List<Document>) document.get("positions");
+        for (Document positionsDoc : positionsAsList) {
+            trackingPeriod.addPosition(Position.fromDocument(positionsDoc));
+        }
+        return trackingPeriod;
     }
 }
