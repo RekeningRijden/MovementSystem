@@ -73,4 +73,15 @@ public class CartrackerResource {
     public TrackingPeriod getTrackingPeriodWithSerialNumber(@PathParam("trackerId") Long trackerId, @PathParam("serialNumber") Long serialNumber) {
         return trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber);
     }
+    
+    
+    //TODO - Implementatie van de trackingPeriodService/Dao voor de MongoDB
+    @POST
+    @Path("/{trackerId}/movements")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public TrackingPeriod addTrackingPeriodForCartracker(@PathParam("trackerId") Long trackerId, TrackingPeriod trackingPeriod) {
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        return trackingPeriodService.addTrackingPeriodForCartracker(trackingPeriod, cartracker);
+    }
 }

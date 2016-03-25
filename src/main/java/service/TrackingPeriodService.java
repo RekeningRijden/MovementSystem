@@ -16,13 +16,14 @@ import java.util.List;
  * @author Eric
  */
 public class TrackingPeriodService {
+
     private TrackingPeriodDao trackingPeriodDao;
     
     public TrackingPeriodService() {
         trackingPeriodDao = new TrackingPeriodDaoImp();
     }
     
-    public TrackingPeriod addNewCartracker(TrackingPeriod tp, Cartracker cartracker) {
+    public TrackingPeriod addTrackingPeriodForCartracker(TrackingPeriod tp, Cartracker cartracker) {
         return trackingPeriodDao.create(tp, cartracker);
     }
     
@@ -33,4 +34,5 @@ public class TrackingPeriodService {
     public List<TrackingPeriod> getAllTrackingPeriodsFromCartracker(Cartracker cartracker) {
         return trackingPeriodDao.findAll(cartracker);
     }
+    
 }
