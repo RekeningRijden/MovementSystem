@@ -18,12 +18,12 @@ import java.util.Map;
  *
  * @author Eric
  */
-public class TrackingPeriodDaoImp implements TrackingPeriodDao {
+public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
 
     private HashMap<Long, TrackingPeriod> trackingPeriods;
     
     
-    public TrackingPeriodDaoImp() {
+    public TrackingPeriodDaoCollectionImp() {
         trackingPeriods = new HashMap<>();
         Position pos1 = new Position(1L, new Date(), -8.534009917954325, 37.43534435804771);
         Position pos2 = new Position(2L, new Date(), -8.534009917954325, 38.04134435804773);

@@ -5,8 +5,15 @@
  */
 package domain;
 
+import dao.TrackingPeriodDaoMongoImp;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.bson.Document;
 
 /**
  *
@@ -28,7 +36,7 @@ public class Position implements Serializable {
 
     public Position() {
     }
-    
+
     public Position(Long id, Date date, Double longitude, Double latitude) {
         this.id = id;
         this.date = date;
@@ -66,6 +74,21 @@ public class Position implements Serializable {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
-    }    
+    }
 
+    public Document toDocument() {
+        Document document = new Document();
+        document.append("date", this.date);
+        document.append("longitude", this.longitude);
+        document.append("latitude", this.latitude);
+        return document;
+    }
+    
+    public static Position fromDocument(Document document) {
+        Position position = new Position();
+        position.setDate((Date) document.get("date"));
+        position.setLongitude((Double) document.get("longitude"));
+        position.setLatitude((Double) document.get("latitude"));
+        return position;
+    }
 }
