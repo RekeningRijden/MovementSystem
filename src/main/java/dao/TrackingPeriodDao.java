@@ -14,13 +14,10 @@ import java.util.List;
  * @author Eric
  */
 public interface TrackingPeriodDao {
-    
+
     TrackingPeriod create(TrackingPeriod tp, Cartracker ct);
-    
+
     TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct);
-    
+
     List<TrackingPeriod> findAll(Cartracker ct);
-    
-    //GettrackingPeriodWithinPeriod
-    
 }

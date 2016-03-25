@@ -12,4 +12,5 @@
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="MovementSystemConnection" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
     <jdbc-resource enabled="true" jndi-name="java:/MovementSystem" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
+    <jdbc-resource enabled="true" jndi-name="MovementSystemDatabaseConnection" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
 </resources>
