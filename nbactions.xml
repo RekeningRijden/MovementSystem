@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-cargo-deploy</actionName>
+        <displayName>cargo-deploy</displayName>
+        <goals>
+            <goal>cargo:redeploy</goal>
+            <goal>-X</goal>
+                
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>cargo-deploy</activatedProfile>
+        </activatedProfiles>
+    </action>
+</actions>

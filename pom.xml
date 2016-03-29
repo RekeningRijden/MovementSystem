@@ -70,6 +70,12 @@
             <artifactId>wildfly-arquillian-container-remote</artifactId>
             <version>8.2.0.Final</version>
         </dependency>
+        
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.34</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -100,6 +106,17 @@
                 <version>2.6</version>
                 <executions>
                     <execution>
+                        <id>copy-dependencies</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/lib</outputDirectory>
+                            <includeScope>system</includeScope>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy</goal>
@@ -124,7 +141,7 @@
     
     <profiles>
         <profile>
-            <id>glassfish-deploy</id>
+            <id>cargo-deploy</id>
             <pluginRepositories>
                 <pluginRepository>
                     <id>maven.java.net</id>
@@ -135,36 +152,41 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.glassfish.maven.plugin</groupId>
-                        <artifactId>maven-glassfish-plugin</artifactId>
-                        <version>2.1</version>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <version>1.4.14</version>
+                        <executions>
+                            <execution>
+                                <id>deploy</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>redeploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                         <configuration>
-                            <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
-                            <user>${local.glassfish.user}</user>
-                            <password>${local.glassfish.password}</password>
-                            <!--<passwordFile>${local.glassfish.passfile}</passwordFile>-->
-                            <autoCreate>true</autoCreate>
-                            <debug>true</debug>
-                            <echo>false</echo>
-                            <terse>true</terse>
-                            <domain>
-                                <name>${local.glassfish.domain}</name>
-                                <adminPort>4848</adminPort>
-                                <httpPort>8080</httpPort>
-                                <httpsPort>8443</httpsPort>
-                                <iiopPort>3700</iiopPort>
-                                <jmsPort>7676</jmsPort>
-                                <reuse>false</reuse>
-                            </domain>
-                            <components>
-                                <component>
-                                    <name>${project.artifactId}</name>
-                                    <artifact>
-                                        ${project.build.directory}/${project.build.finalName}.war
-                                    </artifact>
-                                </component>
-                            </components>
+                            <container>
+                                <containerId>glassfish4x</containerId>
+                                <type>remote</type>
+                            </container>
+                            <configuration>
+                                <type>runtime</type>
+                                <properties>
+                                    <cargo.hostname>${cargo.hostname}</cargo.hostname>
+                                    <cargo.remote.username>${cargo.remote.username}</cargo.remote.username>
+                                    <cargo.remote.password>${cargo.remote.password}</cargo.remote.password>
+                                    <cargo.glassfish.domain.debug>true</cargo.glassfish.domain.debug>
+                                    <cargo.logging>high</cargo.logging>
+                                </properties>
+                            </configuration> 
                         </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.glassfish.main.deployment</groupId>
+                                <artifactId>deployment-client</artifactId>
+                                <version>4.1</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
