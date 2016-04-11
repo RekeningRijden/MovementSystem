@@ -31,3 +31,5 @@ MovementSystemApi.iml
 nb-configuration.xml
 .mvn/timing.properties
 
+
+*.dat
