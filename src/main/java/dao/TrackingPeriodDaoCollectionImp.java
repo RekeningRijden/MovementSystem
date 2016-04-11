@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Test implementation of the TrackingPeriodDao
  * @author Eric
  */
 public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {

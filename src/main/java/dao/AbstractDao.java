@@ -23,23 +23,43 @@ public abstract class AbstractDao<EntityType> {
      */
     protected abstract Class<EntityType> getEntityClass();
 
+    /**
+     * @return Returns the entityManager
+     */
     protected EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /**
+     * Adds the entity to the database
+     * @param entity The entity that will be added to the database
+     * @return The newly added entity
+     */
     public EntityType create(EntityType entity) {
         entityManager.persist(entity);
         return entity;
     }
 
+    /**
+     * Updates an existing entity in the database
+     * @param entity The new entity to be persisted
+     * @return The updated entity
+     */
     public EntityType update(EntityType entity) {
         return entityManager.merge(entity);
     }
 
+    /**
+     * Deletes an entity from the database
+     * @param entity The entity to remove from the database
+     */
     public void remove(EntityType entity) {
         entityManager.remove(entityManager.merge(entity));
     }
 
+    /**
+     * Empty the internal SQL instructions cache, and execute it immediately to the database. FROM: http://stackoverflow.com/questions/4275111/correct-use-of-flush-in-jpa-hibernate
+     */
     public void flush() {
         entityManager.flush();
     }
@@ -48,6 +68,11 @@ public abstract class AbstractDao<EntityType> {
         return entityManager.createNamedQuery(getEntityClass() + ".count", getEntityClass()).getResultList().size();
     }
 
+    /**
+     * Finds an entity by it's unique id
+     * @param id The unique id of the entity
+     * @return The entity with the corresponding id
+     */
     public EntityType findById(Object id) {
         return entityManager.find(getEntityClass(), id);
     }

@@ -37,12 +37,21 @@ public class CartrackerResource {
 
     private TrackingPeriodService trackingPeriodService = new TrackingPeriodService();
 
+    /**
+     * Gets all cartracker known in the database
+     * @return All known cartrackers
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Cartracker> getAllTrackers() {
         return cartrackerService.getAll();
     }
 
+    /**
+     * Gets a cartracker with the corresponding id
+     * @param trackerId The id of the cartracker
+     * @return The cartracker with the corresponding id
+     */
     @GET
     @Path("/{trackerId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,6 +59,11 @@ public class CartrackerResource {
         return cartrackerService.findById(trackerId);
     }
 
+    /**
+     * Adds a new cartracker to the database
+     * @param cartracker The cartracker to be added
+     * @return The newly added cartracker
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,6 +71,11 @@ public class CartrackerResource {
         return cartrackerService.create(cartracker);
     }
 
+    /**
+     * Gets all movements from a cartracker with specified id
+     * @param trackerId The id of the cartracker to get all movements from
+     * @return All movements from a specific cartracker
+     */
     @GET
     @Path("/{trackerId}/movements")
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,7 +86,12 @@ public class CartrackerResource {
         return trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartrackerService.findById(trackerId));
     }
 
-    //TODO - Implementatie van de trackingPeriodService/Dao voor de MongoDB
+    /**
+     * Adds a new TrackingPeriod to the database for a specific cartracker
+     * @param trackerId The id of the cartracker
+     * @param trackingPeriod The new TrackingPeriod
+     * @return The newly added TrackingPeriod
+     */
     @POST
     @Path("/{trackerId}/movements")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -81,6 +105,12 @@ public class CartrackerResource {
         return trackingPeriodService.addTrackingPeriodForCartracker(trackingPeriod, cartracker);
     }
 
+    /**
+     * Gets a TrackingPeriod with the specified serialnumber from a specific cartracker
+     * @param trackerId The id of the cartracker
+     * @param serialNumber The serialnumber of the TrackingPeriod
+     * @return The TrackingPeriod with the corresponding serialnumber from the specified cartracker
+     */
     @GET
     @Path("/{trackerId}/movements/{serialNumber}")
     @Produces(MediaType.APPLICATION_JSON)

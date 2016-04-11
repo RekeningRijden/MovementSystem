@@ -24,7 +24,7 @@ import javax.ejb.Stateless;
 import org.bson.Document;
 
 /**
- *
+ * MongoDB implementation of the TrackingPeriodDao
  * @author Marijn
  */
 public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
@@ -34,6 +34,11 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
     private final MongoClient mongoClient = new MongoClient("mongo");
     private final MongoDatabase db = mongoClient.getDatabase("s63a");
 
+    /**
+     * Gets a new serialnumber for this cartracker
+     * @param ct The cartracker to get a new serialnumber
+     * @return The new serialnumber
+     */
     private Long getNewSerialNumber(Cartracker ct) {
         FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId())).sort(new BasicDBObject("serialNumber" ,-1)).limit(1);
         for (Document document : iterable) {
@@ -42,6 +47,12 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
         return Long.valueOf("1");
     }
 
+    /**
+     * Adds a new TrackingPeriod to the MongoDB
+     * @param tp The new trackingperiod
+     * @param ct The existing cartracker
+     * @return The newly added TrackingPeriod
+     */
     @Override
     public TrackingPeriod create(TrackingPeriod tp, Cartracker ct) {
         tp.setSerialNumber(this.getNewSerialNumber(ct));
@@ -55,6 +66,12 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
         return tp;
     }
 
+    /**
+     * Finds a TrackingPeriod by serialnumber
+     * @param serialNumber The serialnumber of the Trackingperiod
+     * @param ct The cartracker related to the Trackingperiod
+     * @return The TrackingPeriod with the corresponding serialnumber or null when the serial number does not exist for the cartrakcer
+     */
     @Override
     public TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct) {
         FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId()).append("serialNumber", serialNumber));
@@ -64,6 +81,11 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
         return null;
     }
 
+    /**
+     * Gets all TrackingPeriods for an existing cartracker
+     * @param ct The cartracker containing the TrackingPeriods
+     * @return The TrackingPeriods for the cartracker
+     */
     @Override
     public List<TrackingPeriod> findAll(Cartracker ct) {
         FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId()));

@@ -15,9 +15,26 @@ import java.util.List;
  */
 public interface TrackingPeriodDao {
 
+    /**
+     * Adds a new TrackingPeriod for an existing Cartracker
+     * @param tp The new trackingperiod
+     * @param ct The existing cartracker
+     * @return The newly added cartracker
+     */
     TrackingPeriod create(TrackingPeriod tp, Cartracker ct);
 
+    /**
+     * Finds a TrackingPeriod based on it's serialnumber
+     * @param serialNumber The serialnumber of the Trackingperiod
+     * @param ct The cartracker related to the Trackingperiod
+     * @return The TrackingPeriod with the corresponding serialnumber
+     */
     TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct);
 
+    /**
+     * Finds all TrackingPeriods for a specific Cartracker
+     * @param ct The cartracker containing the TrackingPeriods
+     * @return All the TrackingPeriods of the Cartracker
+     */
     List<TrackingPeriod> findAll(Cartracker ct);
 }
