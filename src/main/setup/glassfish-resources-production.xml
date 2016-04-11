@@ -10,7 +10,8 @@
         <property name="URL" value="jdbc:mysql://mysql:3306/s63a?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="MovementSystemConnection" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
-    <jdbc-resource enabled="true" jndi-name="java:/MovementSystem" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
     <jdbc-resource enabled="true" jndi-name="MovementSystemDatabaseConnection" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
+    
+    <-- Test database -->
+    <jdbc-resource enabled="true" jndi-name="MovementSystemTestDatabaseConnection" object-type="user" pool-name="mysql_MovementSystem_rootPool"/>
 </resources>

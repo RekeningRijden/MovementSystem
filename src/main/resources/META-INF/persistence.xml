@@ -5,11 +5,8 @@
         <class>domain.Cartracker</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql:3306/s63a?zeroDateTimeBehavior=convertToNull"/>
-            <property name="javax.persistence.jdbc.user" value="s63a"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.password" value="s63a"/>-->
-              <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>
