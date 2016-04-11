@@ -18,6 +18,7 @@
         <property name="Password" value="s63a"/>
         <property name="URL" value="jdbc:mysql://mysql:3306/movementsystemtest?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="createDatabase" value="create" />
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="MovementSystemTestDatabaseConnection" object-type="user" pool-name="mysql_MovementSystemTest_rootPool"/>
 </resources>
