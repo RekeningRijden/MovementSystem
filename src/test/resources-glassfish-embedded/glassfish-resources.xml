@@ -8,12 +8,4 @@
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="MovementSystemDatabaseConnection" object-type="user"
         pool-name="MovementSystemPool" />
-    
-        <!-- Test database -->
- <jdbc-connection-pool  name="mysql_MovementSystemTest_rootPool" res-type="javax.sql.DataSource"
-        datasource-classname="org.apache.derby.jdbc.EmbeddedDataSource" is-isolation-level-guaranteed="false">
-        <property name="databaseName" value="movementsystemtest"/>
-        <property name="createDatabase" value="create" />
-    </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="MovementSystemTestDatabaseConnection" object-type="user" pool-name="mysql_MovementSystemTest_rootPool"/>
 </resources>
