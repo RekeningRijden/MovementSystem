@@ -36,7 +36,7 @@ public class Cartracker implements Serializable{
     @Transient
     private List<TrackingPeriod> movements;
 
-    protected Cartracker() {
+    public Cartracker() {
         this.authorisationCode = generateAuthorisationCode();
         this.movements = new ArrayList<>();
     }
@@ -59,6 +59,7 @@ public class Cartracker implements Serializable{
            return sb.toString();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Cartracker.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 
