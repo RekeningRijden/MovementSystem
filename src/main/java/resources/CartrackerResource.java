@@ -35,7 +35,8 @@ public class CartrackerResource {
     @Inject
     private CartrackerService cartrackerService;
 
-    private TrackingPeriodService trackingPeriodService = new TrackingPeriodService();
+    @Inject
+    private TrackingPeriodService trackingPeriodService;
 
     /**
      * Gets all cartracker known in the database
