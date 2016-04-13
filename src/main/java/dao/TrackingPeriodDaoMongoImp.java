@@ -38,7 +38,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
 
     public TrackingPeriodDaoMongoImp() {
         mongoClient = new MongoClient("mongo");
-        db = mongoClient.getDatabase("s63a2");
+        db = mongoClient.getDatabase("s63a");
         Logger mongoLogger = Logger.getLogger("com.mongodb");
         mongoLogger.setLevel(Level.SEVERE);
     }
