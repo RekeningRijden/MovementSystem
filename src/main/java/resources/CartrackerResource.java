@@ -35,7 +35,8 @@ public class CartrackerResource {
     @Inject
     private CartrackerService cartrackerService;
 
-    private TrackingPeriodService trackingPeriodService = new TrackingPeriodService();
+    @Inject
+    private TrackingPeriodService trackingPeriodService;
 
     /**
      * Gets all cartracker known in the database
@@ -44,7 +45,11 @@ public class CartrackerResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Cartracker> getAllTrackers() {
-        return cartrackerService.getAll();
+        List<Cartracker> cartrackers = cartrackerService.getAll();
+        for (Cartracker cartracker : cartrackers) {
+            cartracker.setMovements(this.getMovementsFromCartrackerWithId(cartracker.getId()));
+        }
+        return cartrackers;
     }
 
     /**
@@ -61,14 +66,13 @@ public class CartrackerResource {
 
     /**
      * Adds a new cartracker to the database
-     * @param cartracker The cartracker to be added
      * @return The newly added cartracker
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Cartracker addNewTracker(Cartracker cartracker) {
-        return cartrackerService.create(cartracker);
+    public Cartracker addNewTracker() {
+        return cartrackerService.create(new Cartracker());
     }
 
     /**

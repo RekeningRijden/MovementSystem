@@ -95,8 +95,7 @@ public class CarTrackerResourceTest {
     @Test
     public void getCartrackerByIdTest() {
         //Build a CarTracker and add it to the database
-        Cartracker cartracker = buildCartracker("tracker2");
-        cartrackerResource.addNewTracker(cartracker);
+        Cartracker cartracker = cartrackerResource.addNewTracker();
 
         //Get the CarTracker by built carTracker id
         Cartracker result = cartrackerResource.getCartrackerById(cartracker.getId());
@@ -107,17 +106,9 @@ public class CarTrackerResourceTest {
     @Test
     public void getAllTrackersTest() {
         //Build all CarTracker and add them to the database
-        Cartracker carTracker = new Cartracker("1");
-        carTracker.setAuthorisationCode("tracker4");
-        cartrackerResource.addNewTracker(carTracker);
-
-        Cartracker carTracker2 = new Cartracker("2");
-        carTracker2.setAuthorisationCode("tracker5");
-        cartrackerResource.addNewTracker(carTracker2);
-
-        Cartracker carTracker3 = new Cartracker("3");
-        carTracker3.setAuthorisationCode("tracker6");
-        cartrackerResource.addNewTracker(carTracker3);
+        Cartracker carTracker = cartrackerResource.addNewTracker();
+        Cartracker carTracker2 = cartrackerResource.addNewTracker();
+        Cartracker carTracker3 = cartrackerResource.addNewTracker();
 
         //Get all the carTrackers in the database
         List<Cartracker> carTrackers = cartrackerResource.getAllTrackers();
@@ -131,8 +122,7 @@ public class CarTrackerResourceTest {
     @Test
     public void createCartrackerTest() {
         //Build a CarTracker and add it to the database
-        Cartracker cartracker = buildCartracker("tracker1");
-        cartrackerResource.addNewTracker(cartracker);
+        cartrackerResource.addNewTracker();
 
         assertEquals("Wrong amount of CarTracker in the database", 1, cartrackerResource.getAllTrackers().size());
     }

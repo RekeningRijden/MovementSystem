@@ -6,8 +6,13 @@
 package domain;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,14 +36,31 @@ public class Cartracker implements Serializable{
     @Transient
     private List<TrackingPeriod> movements;
 
-    protected Cartracker() {
-        this.authorisationCode = "";
+    public Cartracker() {
+        this.authorisationCode = generateAuthorisationCode();
         this.movements = new ArrayList<>();
     }
     
     public Cartracker(String authorisationCode) {
         this();
         this.authorisationCode = authorisationCode;
+    }
+
+    private String generateAuthorisationCode() {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(UUID.randomUUID().toString().getBytes());
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : array) {
+                sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
+            }
+
+           return sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Cartracker.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     public Long getId() {
