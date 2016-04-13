@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -25,22 +26,31 @@ import org.bson.Document;
 
 /**
  * MongoDB implementation of the TrackingPeriodDao
+ *
  * @author Marijn
  */
 public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
 
     public static final String MONGO_COLLECTION = "trackingperiods";
 
-    private final MongoClient mongoClient = new MongoClient("mongo");
-    private final MongoDatabase db = mongoClient.getDatabase("s63a");
+    private final MongoClient mongoClient;
+    private final MongoDatabase db;
+
+    public TrackingPeriodDaoMongoImp() {
+        mongoClient = new MongoClient("mongo");
+        db = mongoClient.getDatabase("s63a2");
+        Logger mongoLogger = Logger.getLogger("com.mongodb");
+        mongoLogger.setLevel(Level.SEVERE);
+    }
 
     /**
      * Gets a new serialnumber for this cartracker
+     *
      * @param ct The cartracker to get a new serialnumber
      * @return The new serialnumber
      */
     private Long getNewSerialNumber(Cartracker ct) {
-        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId())).sort(new BasicDBObject("serialNumber" ,-1)).limit(1);
+        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId())).sort(new BasicDBObject("serialNumber", -1)).limit(1);
         for (Document document : iterable) {
             return TrackingPeriod.fromDocument(document).getSerialNumber() + 1;
         }
@@ -49,6 +59,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
 
     /**
      * Adds a new TrackingPeriod to the MongoDB
+     *
      * @param tp The new trackingperiod
      * @param ct The existing cartracker
      * @return The newly added TrackingPeriod
@@ -68,9 +79,11 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
 
     /**
      * Finds a TrackingPeriod by serialnumber
+     *
      * @param serialNumber The serialnumber of the Trackingperiod
      * @param ct The cartracker related to the Trackingperiod
-     * @return The TrackingPeriod with the corresponding serialnumber or null when the serial number does not exist for the cartrakcer
+     * @return The TrackingPeriod with the corresponding serialnumber or null
+     * when the serial number does not exist for the cartrakcer
      */
     @Override
     public TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct) {
@@ -83,12 +96,33 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
 
     /**
      * Gets all TrackingPeriods for an existing cartracker
+     *
      * @param ct The cartracker containing the TrackingPeriods
      * @return The TrackingPeriods for the cartracker
      */
     @Override
     public List<TrackingPeriod> findAll(Cartracker ct) {
         FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId()));
+        List<TrackingPeriod> trackingPeriods = new ArrayList<>();
+        for (Document document : iterable) {
+            trackingPeriods.add(TrackingPeriod.fromDocument(document));
+        }
+        return trackingPeriods;
+    }
+
+    /**
+     * Get all TrackingPeriods from the specified cartracking in a period
+     * @param ct
+     * @param startDate
+     * @param endDate
+     * @return 
+     */
+    @Override
+    public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {
+        Document query = new Document("finishedTracking", new Document("$gte", startDate))
+                .append("startedTracking", new Document("$lte", endDate));
+        Logger.getLogger("mongo").log(Level.WARNING, query.toJson().toString());
+        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(query);
         List<TrackingPeriod> trackingPeriods = new ArrayList<>();
         for (Document document : iterable) {
             trackingPeriods.add(TrackingPeriod.fromDocument(document));

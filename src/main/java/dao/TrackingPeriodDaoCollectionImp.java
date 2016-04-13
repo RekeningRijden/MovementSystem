@@ -79,5 +79,10 @@ public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
         }
         return tempTrackingPeriods;
     }
+
+    @Override
+    public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

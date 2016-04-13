@@ -7,6 +7,7 @@ package dao;
 
 import domain.Cartracker;
 import domain.TrackingPeriod;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,4 +38,13 @@ public interface TrackingPeriodDao {
      * @return All the TrackingPeriods of the Cartracker
      */
     List<TrackingPeriod> findAll(Cartracker ct);
+    
+    /**
+     * Find all TrackingPeriods in a specific period.
+     * @param ct
+     * @param startDate
+     * @param endDate
+     * @return 
+     */
+    List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate);
 }

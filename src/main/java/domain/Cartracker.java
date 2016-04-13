@@ -34,11 +34,11 @@ public class Cartracker implements Serializable{
     private String authorisationCode;
 
     @Transient
-    private List<TrackingPeriod> movements;
+    private List<TrackingPeriod> trackingPeriods;
 
     public Cartracker() {
         this.authorisationCode = generateAuthorisationCode();
-        this.movements = new ArrayList<>();
+        this.trackingPeriods = new ArrayList<>();
     }
     
     public Cartracker(String authorisationCode) {
@@ -79,15 +79,15 @@ public class Cartracker implements Serializable{
         this.authorisationCode = authorisationCode;
     }
 
-    public List<TrackingPeriod> getMovements() {
-        return movements;
+    public List<TrackingPeriod> getTrackingPeriods() {
+        return trackingPeriods;
     }
 
-    public void setMovements(List<TrackingPeriod> movements) {
-        this.movements = movements;
+    public void setTrackingPeriods(List<TrackingPeriod> trackingPeriods) {
+        this.trackingPeriods = trackingPeriods;
     }
-    
-    public void addNewTrackingPeriod(TrackingPeriod trackingPeriod) {
-        this.movements.add(trackingPeriod);
+
+    public void addTrackingPeriod(TrackingPeriod trackingPeriod) {
+        this.trackingPeriods.add(trackingPeriod);
     }
 }

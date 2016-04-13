@@ -10,6 +10,7 @@ import dao.TrackingPeriodDaoCollectionImp;
 import dao.TrackingPeriodDaoMongoImp;
 import domain.Cartracker;
 import domain.TrackingPeriod;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,13 +20,14 @@ import java.util.List;
 public class TrackingPeriodService {
 
     private TrackingPeriodDao trackingPeriodDao;
-    
+
     public TrackingPeriodService() {
         trackingPeriodDao = new TrackingPeriodDaoMongoImp();
     }
 
     /**
      * Adds a TrackingPeriod for the specified cartracker
+     *
      * @param tp The new TrackingPeriod
      * @param cartracker The cartracker containing the TrackingPeriod
      * @return The newly added TrackingPeriod
@@ -36,6 +38,7 @@ public class TrackingPeriodService {
 
     /**
      * Gets a TrackingPeriod with the specified serialnumber and cartracker
+     *
      * @param SerialNumber The serialnumber of the TrackingPeriod
      * @param cartracker The cartracker containing the TrackingPeriod
      * @return The TrackingPeriod with specified serialnumber
@@ -46,11 +49,23 @@ public class TrackingPeriodService {
 
     /**
      * Gets all TrackingPeriod from the specified cartracker
+     *
      * @param cartracker The cartracker containing the TrackingPeriods
      * @return All TrackingPeriods from the specified cartracker
      */
     public List<TrackingPeriod> getAllTrackingPeriodsFromCartracker(Cartracker cartracker) {
         return trackingPeriodDao.findAll(cartracker);
     }
-    
+
+    /**
+     * Get all TrackingPeriods from the specified cartracking in a period
+     * @param cartracker
+     * @param startDate
+     * @param endDate
+     * @return 
+     */
+    public List<TrackingPeriod> getAllTrackingPeriodsByPeriod(Cartracker cartracker, Date startDate, Date endDate) {
+        return trackingPeriodDao.findByPeriod(cartracker, startDate, endDate);
+    }
+
 }
