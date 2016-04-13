@@ -86,8 +86,8 @@ public class CarTrackerResourceTest {
 
         Cartracker cartracker = new Cartracker("1");
         cartracker.setAuthorisationCode(authorisationCode);
-        cartracker.addNewTrackingPeriod(trackingPeriod);
-        cartracker.addNewTrackingPeriod(trackingPeriod2);
+        cartracker.addTrackingPeriod(trackingPeriod);
+        cartracker.addTrackingPeriod(trackingPeriod2);
 
         return cartracker;
     }
