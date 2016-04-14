@@ -111,11 +111,11 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
     }
 
     /**
-     * Get all TrackingPeriods from the specified cartracking in a period
-     * @param ct
-     * @param startDate
-     * @param endDate
-     * @return 
+     * Get all TrackingPeriods from the specified cartracker in a specific period
+     * @param ct The cartracker
+     * @param startDate The start date of the TrackingPeriod
+     * @param endDate The end date of the TrackingPeriod
+     * @return A list of TrackingPeriods from the specified cartracker between the start and end date
      */
     @Override
     public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {

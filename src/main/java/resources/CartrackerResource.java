@@ -47,7 +47,7 @@ public class CartrackerResource {
     private TrackingPeriodService trackingPeriodService;
 
     /**
-     * Gets all cartracker known in the database
+     * Gets all cartrackers known in the database
      *
      * @return All known cartrackers
      */
