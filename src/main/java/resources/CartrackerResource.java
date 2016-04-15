@@ -63,8 +63,9 @@ public class CartrackerResource {
     }
 
     @GET
+    @Path("/ids")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Long> getAllCartrackerIds(@QueryParam("ids") String nullValue) {
+    public List<Long> getAllCartrackerIds() {
         return cartrackerService.getAllIds();
     }
 

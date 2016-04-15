@@ -14,6 +14,11 @@ import domain.Cartracker;
  */
 public abstract class CartrackerDao extends AbstractDao<Cartracker> {
 
+    /**
+     * Retrieve the ids of all the @{CarTrackers}.
+     *
+     * @return a list of Longs.
+     */
     public List<Long> getAllIds() {
         return getEntityManager().createQuery("SELECT c.id FROM Cartracker c", Long.class)
                 .getResultList();
