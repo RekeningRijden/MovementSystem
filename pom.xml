@@ -70,7 +70,7 @@
                             <!-- Available backends are plaintext (default), swagger and asciidoc -->
                             <backend>swagger</backend>
                             <!-- Domain of the deployed project, defaults to example.com -->
-                            <deployedDomain>example.com</deployedDomain>
+                            <deployedDomain>movement.s63a.marijn.ws</deployedDomain>
                         </configuration>
                     </execution>
                 </executions>
