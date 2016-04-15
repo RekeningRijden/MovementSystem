@@ -5,12 +5,17 @@
  */
 package dao;
 
+import java.util.List;
+
 import domain.Cartracker;
 
 /**
- *
  * @author maikel
  */
-public abstract class CartrackerDao extends AbstractDao<Cartracker>{
-    
+public abstract class CartrackerDao extends AbstractDao<Cartracker> {
+
+    public List<Long> getAllIds() {
+        return getEntityManager().createQuery("SELECT c.id FROM Cartracker c", Long.class)
+                .getResultList();
+    }
 }

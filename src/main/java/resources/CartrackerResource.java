@@ -7,6 +7,7 @@ package resources;
 
 import domain.Cartracker;
 import domain.TrackingPeriod;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +62,12 @@ public class CartrackerResource {
         return cartrackers;
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Long> getAllCartrackerIds(@QueryParam("ids") String nullValue) {
+        return cartrackerService.getAllIds();
+    }
+
     /**
      * Gets a cartracker with the corresponding id
      *
@@ -113,8 +120,8 @@ public class CartrackerResource {
     @Path("/{trackerId}/movements/_byperiod")
     @Produces(MediaType.APPLICATION_JSON)
     public List<TrackingPeriod> getMovementsByPeriod(@PathParam("trackerId") Long trackerId,
-            @QueryParam("startDate") String startDate,
-            @QueryParam("endDate") String endDate) {
+                                                     @QueryParam("startDate") String startDate,
+                                                     @QueryParam("endDate") String endDate) {
         Cartracker cartracker = cartrackerService.findById(trackerId);
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -131,7 +138,7 @@ public class CartrackerResource {
     /**
      * Adds a new TrackingPeriod to the database for a specific cartracker
      *
-     * @param trackerId The id of the cartracker
+     * @param trackerId      The id of the cartracker
      * @param trackingPeriod The new TrackingPeriod
      * @return The newly added TrackingPeriod
      */
@@ -152,7 +159,7 @@ public class CartrackerResource {
      * Gets a TrackingPeriod with the specified serialnumber from a specific
      * cartracker
      *
-     * @param trackerId The id of the cartracker
+     * @param trackerId    The id of the cartracker
      * @param serialNumber The serialnumber of the TrackingPeriod
      * @return The TrackingPeriod with the corresponding serialnumber from the
      * specified cartracker
