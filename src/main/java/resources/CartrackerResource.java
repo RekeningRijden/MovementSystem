@@ -5,16 +5,16 @@
  */
 package resources;
 
+import wrappers.LongWrapper;
 import domain.Cartracker;
 import domain.TrackingPeriod;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,8 +65,17 @@ public class CartrackerResource {
     @GET
     @Path("/ids")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Long> getAllCartrackerIds() {
-        return cartrackerService.getAllIds();
+    public List<LongWrapper> getAllCartrackerIds() {
+        List<Long> longs = cartrackerService.getAllIds();
+
+//        List<LongWrapper> wrapperList = new ArrayList<>();
+//        for (Long longValue : longs) {
+//            LongWrapper wrapper = new LongWrapper(longValue);
+//            wrapperList.add(wrapper);
+//        }
+        //return wrapperList;
+
+        return LongWrapper.wrapLongs(longs);
     }
 
     /**
