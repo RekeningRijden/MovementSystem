@@ -36,3 +36,5 @@ nb-configuration.xml
 /nbproject/
 movementsystem
 s63a
+### MAC ###
+.DS_STORE
