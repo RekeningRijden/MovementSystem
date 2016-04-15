@@ -4,7 +4,7 @@
 <resources>
     <jdbc-connection-pool name="MovementSystemPool" res-type="javax.sql.DataSource"
         datasource-classname="org.apache.derby.jdbc.EmbeddedDataSource" is-isolation-level-guaranteed="false">
-        <property name="databaseName" value="movementsystem" />
+        <property name="databaseName" value="s63a" />
         <property name="createDatabase" value="create"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="MovementSystemDatabaseConnection" object-type="user"
