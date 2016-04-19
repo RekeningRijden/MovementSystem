@@ -22,6 +22,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import org.bson.Document;
 
 /**
@@ -29,7 +31,7 @@ import org.bson.Document;
  *
  * @author Marijn
  */
-public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
+public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletContextListener {
 
     public static final String MONGO_COLLECTION = "trackingperiods";
 
@@ -128,6 +130,16 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao {
             trackingPeriods.add(TrackingPeriod.fromDocument(document));
         }
         return trackingPeriods;
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        mongoClient.close();
     }
 
 }
