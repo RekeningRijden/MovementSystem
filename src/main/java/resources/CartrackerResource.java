@@ -88,7 +88,9 @@ public class CartrackerResource {
     @Path("/{trackerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Cartracker getCartrackerById(@PathParam("trackerId") Long trackerId) {
-        return cartrackerService.findById(trackerId);
+        Cartracker tracker =  cartrackerService.findById(trackerId);
+        tracker.setTrackingPeriods(trackingPeriodService.getAllTrackingPeriodsFromCartracker(tracker));
+        return tracker;
     }
 
     /**
