@@ -5,9 +5,11 @@
  */
 package resources;
 
+import socket.Message;
 import wrappers.LongWrapper;
 import domain.Cartracker;
 import domain.TrackingPeriod;
+import socket.EndPoint;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -47,6 +49,9 @@ public class CartrackerResource {
     @Inject
     private TrackingPeriodService trackingPeriodService;
 
+    @Inject
+    private EndPoint endpoint;
+
     /**
      * Gets all cartrackers known in the database
      *
@@ -67,14 +72,6 @@ public class CartrackerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<LongWrapper> getAllCartrackerIds() {
         List<Long> longs = cartrackerService.getAllIds();
-
-//        List<LongWrapper> wrapperList = new ArrayList<>();
-//        for (Long longValue : longs) {
-//            LongWrapper wrapper = new LongWrapper(longValue);
-//            wrapperList.add(wrapper);
-//        }
-        //return wrapperList;
-
         return LongWrapper.wrapLongs(longs);
     }
 
@@ -159,11 +156,12 @@ public class CartrackerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public TrackingPeriod addTrackingPeriodForCartracker(@PathParam("trackerId") Long trackerId, TrackingPeriod trackingPeriod) {
-        System.out.println("Added TrackingPeriod - sn: " + trackingPeriod.getSerialNumber() + ", nr of pos: " + trackingPeriod.getPositions().size());
+        System.out.println("Cartracker: " + trackerId + ", nr of pos: " + trackingPeriod.getPositions().size());
         Cartracker cartracker = cartrackerService.findById(trackerId);
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
+        endpoint.onMessage(null, new Message(trackerId, trackingPeriod));
         return trackingPeriodService.addTrackingPeriodForCartracker(trackingPeriod, cartracker);
     }
 
