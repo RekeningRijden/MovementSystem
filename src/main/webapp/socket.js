@@ -2,13 +2,7 @@
  * Created by Eric on 25-04-16.
  */
 //prepare the websocket uri
-var wsUri = document.URL.replace("http", "ws");
-if(wsUri.match("socket.html$")){
-    wsUri=wsUri.replace("socket.html", "socket");
-} else {
-    wsUri += wsUri.match("/$") ? "socket" : "/socket";
-}
-wsUri+="/example-PathParameter-value";
+var wsUri = "ws://movement.s63a.marijn.ws/socket";
 
 //references #output
 var output;
