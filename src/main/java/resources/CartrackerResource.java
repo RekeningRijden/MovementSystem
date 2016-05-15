@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
