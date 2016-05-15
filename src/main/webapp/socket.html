@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Socket test</title>
+    <script src="socket.js"></script>
+</head>
+<body>
+<h2>WebSocket</h2>
+Enter text:<input id="textforws" type="text" onkeypress="return keyPressed(event);"/>
+<button id="sendButton" onclick='doSend(document.getElementById("textforws").value);'>send</button>
+<div id="output"/>
+</body>
+</html>
