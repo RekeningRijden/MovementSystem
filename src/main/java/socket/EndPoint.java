@@ -34,8 +34,8 @@ public class EndPoint {
 
     private HashMap<Session, Long> usersessions = new HashMap<>();
 
-    //@EJB
-    //private EndPoint delegate;
+    @EJB
+    private EndPoint delegate;
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig conf, @PathParam("pathParam") String pathParam) {

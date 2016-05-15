@@ -44,7 +44,7 @@ public class CarTrackerResourceTest {
     @Deployment
     public static Archive<?> createDeployment() {
         WebArchive jar = ShrinkWrap.create(WebArchive.class)
-                .addPackages(true, "dao", "domain", "org.netbeans.rest.application.config", "resources", "service")
+                .addPackages(true, "dao", "domain", "org.netbeans.rest.application.config", "resources", "service", "socket")
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
