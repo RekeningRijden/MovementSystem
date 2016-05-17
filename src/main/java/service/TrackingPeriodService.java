@@ -23,7 +23,6 @@ public class TrackingPeriodService {
     private TrackingPeriodDao trackingPeriodDao;
 
     public TrackingPeriodService() {
-        trackingPeriodDao = new TrackingPeriodDaoMongoImp();
     }
 
     /**
