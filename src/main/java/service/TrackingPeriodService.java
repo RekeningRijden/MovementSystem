@@ -11,14 +11,12 @@ import domain.Cartracker;
 import domain.TrackingPeriod;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 /**
  *
  * @author Eric
  */
-@Stateless
 public class TrackingPeriodService {
 
     @Inject
