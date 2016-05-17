@@ -6,12 +6,12 @@
 package service;
 
 import dao.TrackingPeriodDao;
+import dao.TrackingPeriodDaoCollectionImp;
 import dao.TrackingPeriodDaoMongoImp;
 import domain.Cartracker;
 import domain.TrackingPeriod;
 import java.util.Date;
 import java.util.List;
-import javax.inject.Inject;
 
 /**
  *
@@ -19,7 +19,6 @@ import javax.inject.Inject;
  */
 public class TrackingPeriodService {
 
-    @Inject
     private TrackingPeriodDao trackingPeriodDao;
 
     public TrackingPeriodService() {
