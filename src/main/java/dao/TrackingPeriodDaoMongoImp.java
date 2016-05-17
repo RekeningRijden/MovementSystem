@@ -31,7 +31,6 @@ import org.bson.Document;
  *
  * @author Marijn
  */
-@Stateless
 public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletContextListener {
 
     public static final String MONGO_COLLECTION = "trackingperiods";
