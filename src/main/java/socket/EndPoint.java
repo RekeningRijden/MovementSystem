@@ -1,5 +1,6 @@
 package socket;
 
+import java.io.IOException;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.websocket.*;
@@ -52,7 +53,7 @@ public class EndPoint {
                 LOGGER.severe("Something went wrong");
             }
         } catch (Exception ex) {
-            LOGGER.warning(ex.toString());
+            LOGGER.log(Level.WARNING, "Error: ", ex);
         }
     }
 
@@ -61,8 +62,8 @@ public class EndPoint {
             if (entry.getValue() == message.getTrackerId()) {
                 try {
                     entry.getKey().getBasicRemote().sendObject(message);
-                } catch (Exception ex) {
-                    LOGGER.warning(ex.toString());
+                } catch (IOException | EncodeException ex) {
+                    LOGGER.log(Level.WARNING, "Error: ", ex);
                 }
             }
         }
