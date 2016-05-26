@@ -10,10 +10,10 @@ import javax.persistence.criteria.CriteriaQuery;
 /**
  * Base class for all persistence database actions.
  *
- * @param <EntityType> The database entity class type used for all operations
+ * @param <TYPE> The database entity class type used for all operations
  * @author Sam
  */
-public abstract class AbstractDao<EntityType> {
+public abstract class AbstractDao<TYPE> {
 
     @PersistenceContext(unitName = "MovementPU")
     private EntityManager entityManager;
@@ -21,7 +21,7 @@ public abstract class AbstractDao<EntityType> {
     /**
      * @return Entity Type for all operations.
      */
-    protected abstract Class<EntityType> getEntityClass();
+    protected abstract Class<TYPE> getEntityClass();
 
     /**
      * @return Returns the entityManager
@@ -36,7 +36,7 @@ public abstract class AbstractDao<EntityType> {
      * @param entity The entity that will be added to the database
      * @return The newly added entity
      */
-    public EntityType create(EntityType entity) {
+    public TYPE create(TYPE entity) {
         entityManager.persist(entity);
         return entity;
     }
@@ -47,7 +47,7 @@ public abstract class AbstractDao<EntityType> {
      * @param entity The new entity to be persisted
      * @return The updated entity
      */
-    public EntityType update(EntityType entity) {
+    public TYPE update(TYPE entity) {
         return entityManager.merge(entity);
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractDao<EntityType> {
      *
      * @param entity The entity to remove from the database
      */
-    public void remove(EntityType entity) {
+    public void remove(TYPE entity) {
         entityManager.remove(entityManager.merge(entity));
     }
 
@@ -79,19 +79,19 @@ public abstract class AbstractDao<EntityType> {
      * @param id The unique id of the entity
      * @return The entity with the corresponding id
      */
-    public EntityType findById(Object id) {
+    public TYPE findById(Object id) {
         return entityManager.find(getEntityClass(), id);
     }
 
     /**
      * @return all results from a Entity Type table.
      */
-    public List<EntityType> getAll() {
+    public List<TYPE> getAll() {
         CriteriaBuilder qb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<EntityType> c = qb.createQuery(getEntityClass());
+        CriteriaQuery<TYPE> c = qb.createQuery(getEntityClass());
         c.from(getEntityClass());
 
-        TypedQuery<EntityType> query = entityManager.createQuery(c);
+        TypedQuery<TYPE> query = entityManager.createQuery(c);
         return query.getResultList();
     }
 
