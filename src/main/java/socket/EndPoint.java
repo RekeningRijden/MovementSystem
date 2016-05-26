@@ -53,7 +53,7 @@ public class EndPoint {
                 //System.out.println("Received trackingPeriod for tracker with id: " + message.getTrackerId());
                 for (Map.Entry<Session, Long> entry : usersessions.entrySet()) {
                     if (entry.getValue() == message.getTrackerId()) {
-                        System.out.println("Sending new data");
+                        //System.out.println("Sending new data");
                         entry.getKey().getBasicRemote().sendObject(message);
                     }
                 }
@@ -72,7 +72,7 @@ public class EndPoint {
     }
 
     @OnClose
-    public void onClose(Session session, CloseReason reason) {
+    public void onClose(Session session) {
         LOG.log(Level.FINE, "closed session {0}", session);
         usersessions.remove(session);
     }
