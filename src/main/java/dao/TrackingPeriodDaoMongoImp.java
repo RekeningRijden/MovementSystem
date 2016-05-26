@@ -46,7 +46,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
      * @return The new serialnumber
      */
     private Long getNewSerialNumber(Cartracker ct) {
-        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId())).sort(new BasicDBObject("serialNumber", -1)).limit(1);
+        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId())).sort(new BasicDBObject(COLUMN_SERIALNUMBER, -1)).limit(1);
         for (Document document : iterable) {
             return TrackingPeriod.fromDocument(document).getSerialNumber() + 1;
         }
@@ -64,7 +64,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     public TrackingPeriod create(TrackingPeriod tp, Cartracker ct) {
         tp.setSerialNumber(this.getNewSerialNumber(ct));
         Document document = tp.toDocument();
-        document.append("cartrackerId", ct.getId());
+        document.append(COLUMN_CARTRACKERID, ct.getId());
         /**
          * Insert trackingperiod to database
          */
@@ -83,7 +83,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
      */
     @Override
     public TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct) {
-        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId()).append("serialNumber", serialNumber));
+        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId()).append(COLUMN_SERIALNUMBER, serialNumber));
         for (Document document : iterable) {
             return TrackingPeriod.fromDocument(document);
         }
@@ -136,7 +136,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
+        // do nothing
     }
 
 }
