@@ -47,7 +47,7 @@ public class EndPoint {
                 session.getBasicRemote().sendObject(new Message(message.getTrackerId(), null));
 
             } else if (message.getTrackerId() != null && message.getTrackingPeriod() != null && message.getInitTrackerId() == null) {
-                sendMessageToUserSessions(mesage);
+                sendMessageToUserSessions(message);
             } else {
                 LOGGER.severe("Something went wrong");
             }
@@ -59,20 +59,24 @@ public class EndPoint {
     private void sendMessageToUserSessions(Message message) {
         for (Map.Entry<Session, Long> entry : usersessions.entrySet()) {
             if (entry.getValue() == message.getTrackerId()) {
-                entry.getKey().getBasicRemote().sendObject(message);
+                try {
+                    entry.getKey().getBasicRemote().sendObject(message);
+                } catch (Exception ex) {
+                    LOGGER.warning(ex.toString());
+                }
             }
         }
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        LOGGER.severe("an error occurred in session. Session removed from sessions. " + session, error);
+        LOGGER.log(Level.SEVERE, "an error occurred in session. Session removed from sessions. " + session, error);
         usersessions.remove(session);
     }
 
     @OnClose
     public void onClose(Session session) {
-        LOGGER.fine("closed session {0}", session);
+        LOGGER.log(Level.FINE, "closed session {0}", session);
         usersessions.remove(session);
     }
 }
