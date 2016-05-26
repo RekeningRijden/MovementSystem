@@ -1,6 +1,5 @@
 package socket;
 
-import com.google.common.base.Throwables;
 import com.google.gson.Gson;
 
 import javax.websocket.DecodeException;
@@ -16,9 +15,9 @@ public class MessageDecoder implements Decoder.Text<Message> {
 
     private final Gson gson = new Gson();
 
-    private static final Logger Log = Logger.getLogger(MessageDecoder.class.getName());
+    private static final Logger LOG = Logger.getLogger(MessageDecoder.class.getName());
     static {
-        Log.setLevel(Level.ALL);
+        LOG.setLevel(Level.ALL);
     }
 
     @Override
@@ -26,8 +25,8 @@ public class MessageDecoder implements Decoder.Text<Message> {
         try {
             return gson.fromJson(message, Message.class);
         }
-        catch(Throwable t) {
-            throw new DecodeException(message, "JSON decoding error", t);
+        catch (Exception ex) {
+            throw new DecodeException(message, "JSON decoding error", ex);
         }
     }
 
@@ -38,11 +37,11 @@ public class MessageDecoder implements Decoder.Text<Message> {
 
     @Override
     public void init(EndpointConfig endpointConfig) {
-        Log.fine("created decoder");
+        LOG.fine("created decoder");
     }
 
     @Override
     public void destroy() {
-        Log.fine("destroyed decoder");
+        LOG.fine("destroyed decoder");
     }
 }

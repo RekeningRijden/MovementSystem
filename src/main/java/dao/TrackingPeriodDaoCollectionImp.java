@@ -16,13 +16,13 @@ import java.util.Map;
 
 /**
  * Test implementation of the TrackingPeriodDao
+ *
  * @author Eric
  */
 public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
 
     private HashMap<Long, TrackingPeriod> trackingPeriods;
-    
-    
+
     public TrackingPeriodDaoCollectionImp() {
         trackingPeriods = new HashMap<>();
         Position pos1 = new Position(1L, new Date(), -8.534009917954325, 37.43534435804771);
@@ -49,16 +49,15 @@ public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
         TrackingPeriod tp1 = new TrackingPeriod(1L, 1L, new Date(), new Date(), positions1);
         TrackingPeriod tp2 = new TrackingPeriod(2L, 2L, new Date(), new Date(), positions2);
         TrackingPeriod tp3 = new TrackingPeriod(3L, 3L, new Date(), new Date(), positions3);
-        
+
         trackingPeriods.put(tp1.getId(), tp1);
         trackingPeriods.put(tp2.getId(), tp2);
         trackingPeriods.put(tp3.getId(), tp3);
     }
-    
-    
+
     @Override
     public TrackingPeriod create(TrackingPeriod tp, Cartracker ct) {
-        tp.setId(trackingPeriods.size()+1L);
+        tp.setId(trackingPeriods.size() + 1L);
         tp.setSerialNumber(tp.getId());
         trackingPeriods.put(tp.getId(), tp);
         return this.findBySerialNumber(tp.getSerialNumber(), ct);
@@ -84,5 +83,5 @@ public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
     public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

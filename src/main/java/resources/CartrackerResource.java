@@ -14,13 +14,11 @@ import socket.EndPoint;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.Consumes;
@@ -86,7 +84,7 @@ public class CartrackerResource {
     @Path("/{trackerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Cartracker getCartrackerById(@PathParam("trackerId") Long trackerId) {
-        Cartracker tracker =  cartrackerService.findById(trackerId);
+        Cartracker tracker = cartrackerService.findById(trackerId);
         tracker.setTrackingPeriods(trackingPeriodService.getAllTrackingPeriodsFromCartracker(tracker));
         return tracker;
     }
@@ -121,7 +119,8 @@ public class CartrackerResource {
     }
 
     /**
-     * Gets all movements from a cartracker with specified id in a specific period
+     * Gets all movements from a cartracker with specified id in a specific
+     * period
      *
      * @param trackerId The id of the cartracker to get all movements from
      * @return All movements from a specific cartracker
@@ -130,8 +129,8 @@ public class CartrackerResource {
     @Path("/{trackerId}/movements/_byperiod")
     @Produces(MediaType.APPLICATION_JSON)
     public List<TrackingPeriod> getMovementsByPeriod(@PathParam("trackerId") Long trackerId,
-                                                     @QueryParam("startDate") String startDate,
-                                                     @QueryParam("endDate") String endDate) {
+            @QueryParam("startDate") String startDate,
+            @QueryParam("endDate") String endDate) {
         Cartracker cartracker = cartrackerService.findById(trackerId);
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
@@ -148,7 +147,7 @@ public class CartrackerResource {
     /**
      * Adds a new TrackingPeriod to the database for a specific cartracker
      *
-     * @param trackerId      The id of the cartracker
+     * @param trackerId The id of the cartracker
      * @param trackingPeriod The new TrackingPeriod
      * @return The newly added TrackingPeriod
      */
@@ -170,7 +169,7 @@ public class CartrackerResource {
      * Gets a TrackingPeriod with the specified serialnumber from a specific
      * cartracker
      *
-     * @param trackerId    The id of the cartracker
+     * @param trackerId The id of the cartracker
      * @param serialNumber The serialnumber of the TrackingPeriod
      * @return The TrackingPeriod with the corresponding serialnumber from the
      * specified cartracker

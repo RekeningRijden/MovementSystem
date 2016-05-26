@@ -26,8 +26,8 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "Cartracker")
-public class Cartracker implements Serializable{
-    
+public class Cartracker implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +40,7 @@ public class Cartracker implements Serializable{
         this.authorisationCode = generateAuthorisationCode();
         this.trackingPeriods = new ArrayList<>();
     }
-    
+
     public Cartracker(String authorisationCode) {
         this();
         this.authorisationCode = authorisationCode;
@@ -56,7 +56,7 @@ public class Cartracker implements Serializable{
                 sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
             }
 
-           return sb.toString();
+            return sb.toString();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Cartracker.class.getName()).log(Level.SEVERE, null, ex);
             return null;

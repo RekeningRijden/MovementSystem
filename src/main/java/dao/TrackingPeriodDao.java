@@ -18,6 +18,7 @@ public interface TrackingPeriodDao {
 
     /**
      * Adds a new TrackingPeriod for an existing Cartracker
+     *
      * @param trackingPeriod The new trackingperiod
      * @param cartracker The existing cartracker
      * @return The newly added cartracker
@@ -26,6 +27,7 @@ public interface TrackingPeriodDao {
 
     /**
      * Finds a TrackingPeriod based on it's serialnumber
+     *
      * @param serialNumber The serialnumber of the Trackingperiod
      * @param cartracker The cartracker related to the Trackingperiod
      * @return The TrackingPeriod with the corresponding serialnumber
@@ -34,17 +36,19 @@ public interface TrackingPeriodDao {
 
     /**
      * Finds all TrackingPeriods for a specific Cartracker
+     *
      * @param cartracker The cartracker containing the TrackingPeriods
      * @return All the TrackingPeriods of the Cartracker
      */
     List<TrackingPeriod> findAll(Cartracker cartracker);
-    
+
     /**
      * Find all TrackingPeriods in a specific period.
+     *
      * @param ct
      * @param startDate
      * @param endDate
-     * @return 
+     * @return
      */
     List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate);
 }

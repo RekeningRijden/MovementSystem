@@ -9,21 +9,22 @@ import java.util.logging.Logger;
 /**
  * Created by Eric on 13-05-16.
  */
-public class Configurator extends ServerEndpointConfig.Configurator {
+public class SocketConfigurator extends ServerEndpointConfig.Configurator {
 
-    private static final Logger Log = Logger.getLogger(Configurator.class.getName());
+    private static final Logger LOG = Logger.getLogger(SocketConfigurator.class.getName());
+
     static {
-        Log.setLevel(Level.ALL);
+        LOG.setLevel(Level.ALL);
     }
 
     @Override
     public boolean checkOrigin(String originHeaderValue) {
-        Log.log(Level.FINE, "checking origin for {0}", originHeaderValue);
+        LOG.log(Level.FINE, "checking origin for {0}", originHeaderValue);
         return true;
     }
 
     @Override
     public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
-        Log.log(Level.FINE, "modify handshake for {0}, {1}, {2}", new Object[]{sec, request, response});
+        LOG.log(Level.FINE, "modify handshake for {0}, {1}, {2}", new Object[]{sec, request, response});
     }
 }

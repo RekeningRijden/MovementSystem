@@ -5,19 +5,10 @@
  */
 package domain;
 
-import dao.TrackingPeriodDaoMongoImp;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import static java.util.Arrays.asList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bson.Document;
 
 /**

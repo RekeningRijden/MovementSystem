@@ -14,7 +14,9 @@ public class LongWrapper {
         this.value = value;
     }
 
-    public LongWrapper() {}
+    public LongWrapper() {
+        // create empty LongWrapper
+    }
 
     public void setValue(Long value) {
         this.value = value;
@@ -24,7 +26,7 @@ public class LongWrapper {
         return value;
     }
 
-    public static List<LongWrapper> wrapLongs(List<Long> longs){
+    public static List<LongWrapper> wrapLongs(List<Long> longs) {
         List<LongWrapper> wrapperList = new ArrayList<>();
         for (Long longValue : longs) {
             LongWrapper wrapper = new LongWrapper(longValue);

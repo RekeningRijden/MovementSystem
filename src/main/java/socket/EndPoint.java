@@ -1,10 +1,7 @@
 package socket;
 
-import domain.TrackingPeriod;
-
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -21,7 +18,7 @@ import java.util.logging.Logger;
         value = "/socket/{pathParam}",
         encoders = {MessageEncoder.class},
         decoders = {MessageDecoder.class},
-        configurator = Configurator.class
+        configurator = SocketConfigurator.class
 )
 @Singleton
 public class EndPoint {
@@ -38,39 +35,33 @@ public class EndPoint {
     private EndPoint delegate;
 
     @OnOpen
-    public void onOpen(Session session, EndpointConfig conf, @PathParam("pathParam") String pathParam) {
+    public void onOpen(Session session, @PathParam("pathParam") String pathParam) {
         LOG.log(Level.FINE, "openend session {0}, pathParam={1}", new Object[]{session, pathParam});
     }
 
     @OnMessage
     public void onMessage(Session session, Message message) {
-        if (message.getTrackerId() == null && message.getTrackingPeriod() == null && message.getInitTrackerId() != null) {
-            System.out.println("New user added to session with cartrackerId: " + message.getInitTrackerId());
-            usersessions.put(session, message.getInitTrackerId());
+        try {
+            if (message.getTrackerId() == null && message.getTrackingPeriod() == null && message.getInitTrackerId() != null) {
+                //System.out.println("New user added to session with cartrackerId: " + message.getInitTrackerId());
+                usersessions.put(session, message.getInitTrackerId());
 
-            //Send confirmation message (for testing)
-            try{
+                //Send confirmation message (for testing)
                 session.getBasicRemote().sendObject(new Message(message.getTrackerId(), null));
-            }
-            catch(Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        else if(message.getTrackerId() != null && message.getTrackingPeriod() != null && message.getInitTrackerId() == null) {
-            System.out.println("Received trackingPeriod for tracker with id: " + message.getTrackerId());
-            for(Map.Entry<Session, Long> entry : usersessions.entrySet()) {
-                if(entry.getValue() == message.getTrackerId()) {
-                    try {
+
+            } else if (message.getTrackerId() != null && message.getTrackingPeriod() != null && message.getInitTrackerId() == null) {
+                //System.out.println("Received trackingPeriod for tracker with id: " + message.getTrackerId());
+                for (Map.Entry<Session, Long> entry : usersessions.entrySet()) {
+                    if (entry.getValue() == message.getTrackerId()) {
                         System.out.println("Sending new data");
                         entry.getKey().getBasicRemote().sendObject(message);
-                    } catch (IOException | EncodeException e) {
-                        e.printStackTrace();
                     }
                 }
+            } else {
+                LOG.log(Level.SEVERE, "Something went wrong");
             }
-        }
-        else {
-            LOG.log(Level.SEVERE, "Something went wrong");
+        } catch (Exception ex) {
+            LOG.log(Level.WARNING, ex.toString());
         }
     }
 

@@ -3,7 +3,6 @@ package service;
 /**
  * Created by Sam on 22-3-2016.
  */
-
 import java.io.Serializable;
 
 import javax.ejb.Stateless;

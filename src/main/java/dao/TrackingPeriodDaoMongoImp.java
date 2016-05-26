@@ -11,17 +11,11 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoDatabase;
 import domain.Cartracker;
 import domain.TrackingPeriod;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import static java.util.Arrays.asList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.bson.Document;
@@ -34,6 +28,8 @@ import org.bson.Document;
 public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletContextListener {
 
     public static final String MONGO_COLLECTION = "trackingperiods";
+    private static final String COLUMN_CARTRACKERID = "cartrackerId";
+    private static final String COLUMN_SERIALNUMBER = "serialNumber";
 
     private final MongoClient mongoClient;
     private final MongoDatabase db;
@@ -41,8 +37,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     public TrackingPeriodDaoMongoImp() {
         mongoClient = new MongoClient("mongo");
         db = mongoClient.getDatabase("s63a");
-        Logger mongoLogger = Logger.getLogger("com.mongodb");
-        mongoLogger.setLevel(Level.SEVERE);
     }
 
     /**
@@ -89,7 +83,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
      */
     @Override
     public TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct) {
-        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId()).append("serialNumber", serialNumber));
+        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId()).append("serialNumber", serialNumber));
         for (Document document : iterable) {
             return TrackingPeriod.fromDocument(document);
         }
@@ -104,7 +98,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
      */
     @Override
     public List<TrackingPeriod> findAll(Cartracker ct) {
-        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document("cartrackerId", ct.getId()));
+        FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId()));
         List<TrackingPeriod> trackingPeriods = new ArrayList<>();
         for (Document document : iterable) {
             trackingPeriods.add(TrackingPeriod.fromDocument(document));
@@ -113,17 +107,20 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     }
 
     /**
-     * Get all TrackingPeriods from the specified cartracker in a specific period
+     * Get all TrackingPeriods from the specified cartracker in a specific
+     * period
+     *
      * @param ct The cartracker
      * @param startDate The start date of the TrackingPeriod
      * @param endDate The end date of the TrackingPeriod
-     * @return A list of TrackingPeriods from the specified cartracker between the start and end date
+     * @return A list of TrackingPeriods from the specified cartracker between
+     * the start and end date
      */
     @Override
     public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {
         Document query = new Document("finishedTracking", new Document("$gte", startDate))
                 .append("startedTracking", new Document("$lte", endDate));
-        Logger.getLogger("mongo").log(Level.WARNING, query.toJson().toString());
+        Logger.getLogger("mongo").log(Level.WARNING, query.toJson());
         FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(query);
         List<TrackingPeriod> trackingPeriods = new ArrayList<>();
         for (Document document : iterable) {
@@ -133,13 +130,13 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     }
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        
+    public void contextDestroyed(ServletContextEvent sce) {
+        mongoClient.close();
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        mongoClient.close();
+    public void contextInitialized(ServletContextEvent sce) {
+
     }
 
 }
