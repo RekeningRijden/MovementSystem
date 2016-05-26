@@ -10,10 +10,10 @@ import javax.persistence.criteria.CriteriaQuery;
 /**
  * Base class for all persistence database actions.
  *
- * @param <TYPE> The database entity class type used for all operations
+ * @param <T> The database entity class type used for all operations
  * @author Sam
  */
-public abstract class AbstractDao<TYPE> {
+public abstract class AbstractDao<T> {
 
     @PersistenceContext(unitName = "MovementPU")
     private EntityManager entityManager;
@@ -21,7 +21,7 @@ public abstract class AbstractDao<TYPE> {
     /**
      * @return Entity Type for all operations.
      */
-    protected abstract Class<TYPE> getEntityClass();
+    protected abstract Class<T> getEntityClass();
 
     /**
      * @return Returns the entityManager
@@ -36,7 +36,7 @@ public abstract class AbstractDao<TYPE> {
      * @param entity The entity that will be added to the database
      * @return The newly added entity
      */
-    public TYPE create(TYPE entity) {
+    public T create(T entity) {
         entityManager.persist(entity);
         return entity;
     }
@@ -47,7 +47,7 @@ public abstract class AbstractDao<TYPE> {
      * @param entity The new entity to be persisted
      * @return The updated entity
      */
-    public TYPE update(TYPE entity) {
+    public T update(T entity) {
         return entityManager.merge(entity);
     }
 
@@ -56,7 +56,7 @@ public abstract class AbstractDao<TYPE> {
      *
      * @param entity The entity to remove from the database
      */
-    public void remove(TYPE entity) {
+    public void remove(T entity) {
         entityManager.remove(entityManager.merge(entity));
     }
 
@@ -79,19 +79,19 @@ public abstract class AbstractDao<TYPE> {
      * @param id The unique id of the entity
      * @return The entity with the corresponding id
      */
-    public TYPE findById(Object id) {
+    public T findById(Object id) {
         return entityManager.find(getEntityClass(), id);
     }
 
     /**
      * @return all results from a Entity Type table.
      */
-    public List<TYPE> getAll() {
+    public List<T> getAll() {
         CriteriaBuilder qb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<TYPE> c = qb.createQuery(getEntityClass());
+        CriteriaQuery<T> c = qb.createQuery(getEntityClass());
         c.from(getEntityClass());
 
-        TypedQuery<TYPE> query = entityManager.createQuery(c);
+        TypedQuery<T> query = entityManager.createQuery(c);
         return query.getResultList();
     }
 
