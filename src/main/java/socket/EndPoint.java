@@ -42,14 +42,22 @@ public class EndPoint {
     @OnMessage
     public void onMessage(Session session, Message message) {
         try {
-            if (message.getTrackerId() == null && message.getTrackingPeriod() == null && message.getInitTrackerId() != null) {
-                usersessions.put(session, message.getInitTrackerId());
-
+            //New session
+            if(message.isStartSession() && message.getTrackerId() != null) {
+                onOpen(session, "");
+                usersessions.put(session, message.getTrackerId());
                 session.getBasicRemote().sendObject(new Message(message.getTrackerId(), null));
-
-            } else if (message.getTrackerId() != null && message.getTrackingPeriod() != null && message.getInitTrackerId() == null) {
+            }
+            //End session
+            else if(!message.isStartSession() && message.getTrackerId() != null) {
+                onClose(session);
+            }
+            //New trackingperiod from service
+            else if (message.getTrackerId() != null && message.getTrackingPeriod() != null) {
                 sendMessageToUserSessions(message);
-            } else {
+            }
+            //If something went wrong
+            else {
                 LOGGER.severe("Something went wrong");
             }
         } catch (Exception ex) {
@@ -59,7 +67,7 @@ public class EndPoint {
 
     private void sendMessageToUserSessions(Message message) {
         for (Map.Entry<Session, Long> entry : usersessions.entrySet()) {
-            if (entry.getValue() == message.getTrackerId()) {
+            if (entry.getValue().equals(message.getTrackerId())) {
                 try {
                     entry.getKey().getBasicRemote().sendObject(message);
                 } catch (IOException | EncodeException ex) {
