@@ -49,7 +49,7 @@ public class EndPoint {
                 session.getBasicRemote().sendObject(new Message(message.getTrackerId(), null));
             }
             //End session
-            else if(!message.isStartSession() && message.getTrackerId() != null) {
+            else if(!message.isStartSession() && message.getTrackerId() != null && message.getTrackingPeriod() == null) {
                 onClose(session);
             }
             //New trackingperiod from service
