@@ -36,6 +36,7 @@ public class EndPoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("pathParam") String pathParam) {
+        session.setMaxIdleTimeout(0);
         LOGGER.log(Level.FINE, "openend session {0}, pathParam={1}", new Object[]{session, pathParam});
     }
 
