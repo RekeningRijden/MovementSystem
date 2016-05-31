@@ -21,7 +21,7 @@ import javax.servlet.ServletContextListener;
 import org.bson.Document;
 
 /**
- * MongoDB implementation of the TrackingPeriodDao
+ * MongoDB implementation of the TrackingPeriodDao.
  *
  * @author Marijn
  */
@@ -40,10 +40,10 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     }
 
     /**
-     * Gets a new serialnumber for this cartracker
+     * Gets a new serialnumber for this cartracker.
      *
      * @param ct The cartracker to get a new serialnumber
-     * @return The new serialnumber
+     * @return The new serialnumber.
      */
     private Long getNewSerialNumber(Cartracker ct) {
         FindIterable<Document> iterable = db.getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId())).sort(new BasicDBObject(COLUMN_SERIALNUMBER, -1)).limit(1);
@@ -54,11 +54,11 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     }
 
     /**
-     * Adds a new TrackingPeriod to the MongoDB
+     * Adds a new TrackingPeriod to the MongoDB.
      *
      * @param tp The new trackingperiod
      * @param ct The existing cartracker
-     * @return The newly added TrackingPeriod
+     * @return The newly added TrackingPeriod.
      */
     @Override
     public TrackingPeriod create(TrackingPeriod tp, Cartracker ct) {
@@ -66,7 +66,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
         Document document = tp.toDocument();
         document.append(COLUMN_CARTRACKERID, ct.getId());
         /**
-         * Insert trackingperiod to database
+         * Insert trackingperiod to database.
          */
         db.getCollection(MONGO_COLLECTION).insertOne(document);
 
@@ -74,12 +74,12 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     }
 
     /**
-     * Finds a TrackingPeriod by serialnumber
+     * Finds a TrackingPeriod by serialnumber.
      *
      * @param serialNumber The serialnumber of the Trackingperiod
      * @param ct The cartracker related to the Trackingperiod
      * @return The TrackingPeriod with the corresponding serialnumber or null
-     * when the serial number does not exist for the cartrakcer
+     * when the serial number does not exist for the cartracker.
      */
     @Override
     public TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct) {
@@ -91,10 +91,10 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
     }
 
     /**
-     * Gets all TrackingPeriods for an existing cartracker
+     * Gets all TrackingPeriods for an existing cartracker.
      *
      * @param ct The cartracker containing the TrackingPeriods
-     * @return The TrackingPeriods for the cartracker
+     * @return The TrackingPeriods for the cartracker.
      */
     @Override
     public List<TrackingPeriod> findAll(Cartracker ct) {
@@ -108,13 +108,13 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
 
     /**
      * Get all TrackingPeriods from the specified cartracker in a specific
-     * period
+     * period.
      *
      * @param ct The cartracker
      * @param startDate The start date of the TrackingPeriod
      * @param endDate The end date of the TrackingPeriod
      * @return A list of TrackingPeriods from the specified cartracker between
-     * the start and end date
+     * the start and end date.
      */
     @Override
     public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {
@@ -136,7 +136,7 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, ServletCont
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        // do nothing
+        // Do nothing
     }
 
 }

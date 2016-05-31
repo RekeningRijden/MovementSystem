@@ -24,17 +24,17 @@ public abstract class AbstractDao<T> {
     protected abstract Class<T> getEntityClass();
 
     /**
-     * @return Returns the entityManager
+     * @return the entityManager.
      */
     protected EntityManager getEntityManager() {
         return entityManager;
     }
 
     /**
-     * Adds the entity to the database
+     * Adds the entity to the database.
      *
      * @param entity The entity that will be added to the database
-     * @return The newly added entity
+     * @return The newly added entity.
      */
     public T create(T entity) {
         entityManager.persist(entity);
@@ -42,17 +42,17 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     * Updates an existing entity in the database
+     * Updates an existing entity in the database.
      *
      * @param entity The new entity to be persisted
-     * @return The updated entity
+     * @return The updated entity.
      */
     public T update(T entity) {
         return entityManager.merge(entity);
     }
 
     /**
-     * Deletes an entity from the database
+     * Deletes an entity from the database.
      *
      * @param entity The entity to remove from the database
      */
@@ -74,10 +74,10 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     * Finds an entity by it's unique id
+     * Finds an entity by it's unique id.
      *
      * @param id The unique id of the entity
-     * @return The entity with the corresponding id
+     * @return The entity with the corresponding id.
      */
     public T findById(Object id) {
         return entityManager.find(getEntityClass(), id);
@@ -98,7 +98,7 @@ public abstract class AbstractDao<T> {
     /**
      * Remove all characters not allowed in a JPQL query from a String.
      *
-     * @param fieldName to remove the characters from.
+     * @param fieldName to remove the characters from
      * @return String left after character replacement.
      */
     protected String makeFieldNameJqplSafe(String fieldName) {

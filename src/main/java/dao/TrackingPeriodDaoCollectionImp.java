@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Test implementation of the TrackingPeriodDao
+ * Test implementation of the TrackingPeriodDao.
  *
  * @author Eric
  */
@@ -81,7 +81,7 @@ public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
 
     @Override
     public List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose Tools | Templates.
     }
 
 }

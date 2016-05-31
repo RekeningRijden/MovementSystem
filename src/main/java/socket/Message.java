@@ -16,7 +16,7 @@ public class Message implements Serializable {
     private boolean startSession;
 
     public Message() {
-        // create empty message
+        // Create empty message.
     }
 
     public Message(Long trackerId, TrackingPeriod trackingPeriod) {
