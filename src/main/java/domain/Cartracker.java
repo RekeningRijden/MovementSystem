@@ -24,7 +24,7 @@ import javax.persistence.Transient;
 
 /**
  *
- * @author maikel
+ * @author Maikel
  */
 @Entity
 @Table(name = "Cartracker")

@@ -25,32 +25,32 @@ public class TrackingPeriodService {
     }
 
     /**
-     * Adds a TrackingPeriod for the specified cartracker
+     * Adds a TrackingPeriod for the specified cartracker.
      *
      * @param tp The new TrackingPeriod
      * @param cartracker The cartracker containing the TrackingPeriod
-     * @return The newly added TrackingPeriod
+     * @return The newly added TrackingPeriod.
      */
     public TrackingPeriod addTrackingPeriodForCartracker(TrackingPeriod tp, Cartracker cartracker) {
         return trackingPeriodDao.create(tp, cartracker);
     }
 
     /**
-     * Gets a TrackingPeriod with the specified serialnumber and cartracker
+     * Gets a TrackingPeriod with the specified serialnumber and cartracker.
      *
      * @param SerialNumber The serialnumber of the TrackingPeriod
      * @param cartracker The cartracker containing the TrackingPeriod
-     * @return The TrackingPeriod with specified serialnumber
+     * @return The TrackingPeriod with specified serialnumber.
      */
     public TrackingPeriod getTrackingPeriodBySerialNumber(Long serialNumber, Cartracker cartracker) {
         return trackingPeriodDao.findBySerialNumber(serialNumber, cartracker);
     }
 
     /**
-     * Gets all TrackingPeriod from the specified cartracker
+     * Gets all TrackingPeriod from the specified cartracker.
      *
      * @param cartracker The cartracker containing the TrackingPeriods
-     * @return All TrackingPeriods from the specified cartracker
+     * @return All TrackingPeriods from the specified cartracker.
      */
     public List<TrackingPeriod> getAllTrackingPeriodsFromCartracker(Cartracker cartracker) {
         return trackingPeriodDao.findAll(cartracker);
@@ -80,13 +80,13 @@ public class TrackingPeriodService {
 
     /**
      * Get all TrackingPeriods from the specified cartracker in a specific
-     * period
+     * period.
      *
      * @param cartracker The cartracker
      * @param startDate The start date of the TrackingPeriod
      * @param endDate The end date of the TrackingPeriod
      * @return A list of TrackingPeriods from the specified cartracker between
-     * the start and end date
+     * the start and end date.
      */
     public List<TrackingPeriod> getAllTrackingPeriodsByPeriod(Cartracker cartracker, Date startDate, Date endDate) {
         return trackingPeriodDao.findByPeriod(cartracker, startDate, endDate);

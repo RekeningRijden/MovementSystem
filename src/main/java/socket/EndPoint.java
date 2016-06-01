@@ -36,6 +36,7 @@ public class EndPoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("pathParam") String pathParam) {
+        session.setMaxIdleTimeout(0);
         LOGGER.log(Level.FINE, "openend session {0}, pathParam={1}", new Object[]{session, pathParam});
     }
 
@@ -49,7 +50,7 @@ public class EndPoint {
                 session.getBasicRemote().sendObject(new Message(message.getTrackerId(), null));
             }
             //End session
-            else if(!message.isStartSession() && message.getTrackerId() != null) {
+            else if(!message.isStartSession() && message.getTrackerId() != null && message.getTrackingPeriod() == null) {
                 onClose(session);
             }
             //New trackingperiod from service

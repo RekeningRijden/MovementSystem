@@ -13,7 +13,7 @@ import org.bson.Document;
 
 /**
  *
- * @author maikel
+ * @author Maikel
  */
 public class TrackingPeriod implements Serializable {
 

@@ -10,12 +10,12 @@ import java.util.List;
 import domain.Cartracker;
 
 /**
- * @author maikel
+ * @author Maikel
  */
 public abstract class CartrackerDao extends AbstractDao<Cartracker> {
 
     /**
-     * Retrieve the ids of all the @{CarTrackers}.
+     * Retrieve the id's of all the @{CarTrackers}.
      *
      * @return a list of Longs.
      */
