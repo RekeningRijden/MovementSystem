@@ -57,6 +57,28 @@ public class TrackingPeriodService {
     }
 
     /**
+     * Count all TrackingPeriod from the specified cartracker
+     *
+     * @param cartracker The cartracker containing the TrackingPeriods
+     * @return All TrackingPeriods from the specified cartracker
+     */
+    public int countAllTrackingPeriodsFromCartracker(Cartracker cartracker) {
+        return trackingPeriodDao.countAll(cartracker);
+    }
+
+    /**
+     * Gets all TrackingPeriod paginated from the specified cartracker
+     *
+     * @param cartracker
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    public List<TrackingPeriod> getAllTrackingPeriodsFromCartrackerPaginated(Cartracker cartracker, int pageIndex, int pageSize) {
+        return trackingPeriodDao.findAllPaginated(cartracker, pageIndex, pageSize);
+    }
+
+    /**
      * Get all TrackingPeriods from the specified cartracker in a specific
      * period
      *

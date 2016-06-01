@@ -41,6 +41,22 @@ public interface TrackingPeriodDao {
      * @return All the TrackingPeriods of the Cartracker
      */
     List<TrackingPeriod> findAll(Cartracker cartracker);
+    
+    /**
+     * Finds all paginated TrackingPeriods for a specific Cartracker 
+     * @param cartracker
+     * @param pageIndex
+     * @param pageSize
+     * @return 
+     */
+    List<TrackingPeriod> findAllPaginated(Cartracker cartracker, int pageIndex, int pageSize);
+    
+    /**
+     * Count all trackingperiods for a specific Cartracker
+     * @param cartracker
+     * @return 
+     */
+    int countAll(Cartracker cartracker);
 
     /**
      * Find all TrackingPeriods in a specific period.

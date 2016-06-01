@@ -17,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,6 +28,9 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "Cartracker")
+@NamedQueries({
+    @NamedQuery(name = "Cartracker.count", query = "SELECT COUNT(1) FROM Cartracker c") 
+})
 public class Cartracker implements Serializable {
 
     @Id
@@ -38,7 +43,6 @@ public class Cartracker implements Serializable {
 
     public Cartracker() {
         this.authorisationCode = generateAuthorisationCode();
-        this.trackingPeriods = new ArrayList<>();
     }
 
     public Cartracker(String authorisationCode) {

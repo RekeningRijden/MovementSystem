@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -70,7 +71,8 @@ public abstract class AbstractDao<T> {
     }
 
     public int count() {
-        return entityManager.createNamedQuery(getEntityClass() + ".count", getEntityClass()).getResultList().size();
+        Query query = entityManager.createNamedQuery(getEntityClass().getSimpleName() + ".count", getEntityClass());
+        return (int) (long) query.getSingleResult();
     }
 
     /**
@@ -92,6 +94,23 @@ public abstract class AbstractDao<T> {
         c.from(getEntityClass());
 
         TypedQuery<T> query = entityManager.createQuery(c);
+        return query.getResultList();
+    }
+
+    /**
+     * Get a paginated list of items.
+     * @param pageIndex
+     * @param pageSize
+     * @return 
+     */
+    public List<T> getAllPaginated(int pageIndex, int pageSize) {
+        CriteriaBuilder qb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> c = qb.createQuery(getEntityClass());
+        c.from(getEntityClass());
+
+        TypedQuery<T> query = entityManager.createQuery(c);
+        query.setFirstResult(pageIndex * pageSize);
+        query.setMaxResults(pageSize);
         return query.getResultList();
     }
 

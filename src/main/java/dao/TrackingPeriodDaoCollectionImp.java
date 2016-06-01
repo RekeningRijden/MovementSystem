@@ -84,4 +84,14 @@ public class TrackingPeriodDaoCollectionImp implements TrackingPeriodDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public List<TrackingPeriod> findAllPaginated(Cartracker cartracker, int pageIndex, int pageSize) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int countAll(Cartracker cartracker) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
