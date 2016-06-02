@@ -11,24 +11,34 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Marijn
  */
 public class TrackingPeriodPaginationTest {
-    
+
     private TrackingPeriodPagination trackingPeriodPagination = new TrackingPeriodPagination();
-    
+
     public TrackingPeriodPaginationTest() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
-     @Test
+
+    @Test
+    public void testConstructor() {
+        for (int pageSize = 0; pageSize < 100; pageSize++) {
+            for (int pageIndex = 0; pageIndex < 100; pageIndex++) {
+                TrackingPeriodPagination trackingPeriodPagination = new TrackingPeriodPagination(pageSize, pageIndex);
+                Assert.assertEquals(pageSize, trackingPeriodPagination.getPageSize());
+                Assert.assertEquals(pageIndex, trackingPeriodPagination.getPageIndex());
+            }
+        }
+    }
+
+    @Test
     public void testItems() {
         Assert.assertEquals(0, this.trackingPeriodPagination.getItems().size());
         TrackingPeriod trackingPeriod = new TrackingPeriod();
