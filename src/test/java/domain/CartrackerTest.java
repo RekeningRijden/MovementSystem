@@ -6,6 +6,8 @@
 package domain;
 
 import domain.Cartracker;
+import java.util.ArrayList;
+import java.util.List;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,6 +33,13 @@ public class CartrackerTest {
         /* Authorisationcode */
         cartracker.setAuthorisationCode("hoi");
         assertEquals("hoi", cartracker.getAuthorisationCode());
+        
+        /* Trackingperiods */
+        List<TrackingPeriod> trackingPeriods = new ArrayList<>();
+        cartracker.setTrackingPeriods(trackingPeriods);
+        assertSame(trackingPeriods, cartracker.getTrackingPeriods());
+        cartracker.addTrackingPeriod(new TrackingPeriod());
+        assertSame(1, cartracker.getTrackingPeriods().size());
     }
 
     @Test
@@ -38,4 +47,6 @@ public class CartrackerTest {
         Cartracker cartracker = new Cartracker("hoi");
         assertEquals("hoi", cartracker.getAuthorisationCode());
     }
+    
+    
 }
