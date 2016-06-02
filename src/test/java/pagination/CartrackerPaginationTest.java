@@ -30,6 +30,17 @@ public class CartrackerPaginationTest {
     }
 
     @Test
+    public void testConstructor() {
+        for (int pageSize = 0; pageSize < 100; pageSize++) {
+            for (int pageIndex = 0; pageIndex < 100; pageIndex++) {
+                CartrackerPagination cartrackerPagination = new CartrackerPagination(pageSize, pageIndex);
+                Assert.assertEquals(pageSize, cartrackerPagination.getPageSize());
+                Assert.assertEquals(pageIndex, cartrackerPagination.getPageIndex());
+            }
+        }
+    }
+
+    @Test
     public void testItems() {
         Assert.assertEquals(0, this.cartrackerPagination.getItems().size());
         Cartracker cartracker = new Cartracker();
