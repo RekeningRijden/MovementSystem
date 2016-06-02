@@ -65,7 +65,6 @@ public class TrackingPeriodTest {
         Date endDate = new Date();
         TrackingPeriod trackingPeriod = new TrackingPeriod(Long.parseLong("10"), Long.parseLong("15"), startDate, endDate, new ArrayList<Position>());
         TrackingPeriod trackingPeriodConverted = TrackingPeriod.fromDocument(trackingPeriod.toDocument());
-        assertSame(Long.parseLong("10"), trackingPeriodConverted.getId());
         assertSame(startDate, trackingPeriodConverted.getStartedTracking());
         assertSame(endDate, trackingPeriodConverted.getFinishedTracking());
         assertSame(Long.parseLong("15"), trackingPeriodConverted.getSerialNumber());
