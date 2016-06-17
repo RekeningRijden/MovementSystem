@@ -2,6 +2,8 @@ package dao;
 
 import com.mongodb.MongoClient;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.ConcurrencyManagement;
@@ -17,8 +19,8 @@ import javax.ejb.Singleton;
  * @author Sam
  */
 @Singleton
-@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
-public class MongoClientProvider {
+//@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
+public class MongoClientProvider implements Serializable {
 
     private MongoClient mongoClient = null;
 

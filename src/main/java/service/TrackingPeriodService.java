@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 import dao.TrackingPeriodDaoMongoImp;
 import domain.Cartracker;
@@ -22,7 +23,7 @@ import domain.TrackingPeriod;
 @Stateless
 public class TrackingPeriodService implements Serializable {
 
-    @EJB
+    @Inject
     private TrackingPeriodDaoMongoImp trackingPeriodDao;
 
     /**
@@ -54,7 +55,7 @@ public class TrackingPeriodService implements Serializable {
      * @return All TrackingPeriods from the specified cartracker.
      */
     public List<TrackingPeriod> getAllTrackingPeriodsFromCartracker(Cartracker cartracker) {
-        return trackingPeriodDao.findAll(cartracker);
+        return null; //rackingPeriodDao.findAll(cartracker);
     }
 
     /**

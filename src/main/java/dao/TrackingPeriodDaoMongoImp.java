@@ -29,7 +29,7 @@ import org.bson.Document;
  * @author Marijn
  */
 @Stateless
-public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializable {
+public class TrackingPeriodDaoMongoImp implements Serializable {
 
     public static final String MONGO_COLLECTION = "trackingperiods";
     private static final String COLUMN_CARTRACKERID = "cartrackerId";
@@ -63,7 +63,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializabl
      * @param ct The existing cartracker
      * @return The newly added TrackingPeriod.
      */
-    @Override
     public TrackingPeriod create(TrackingPeriod tp, Cartracker ct) {
         tp.setSerialNumber(this.getNewSerialNumber(ct));
         Document document = tp.toDocument();
@@ -84,7 +83,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializabl
      * @return The TrackingPeriod with the corresponding serialnumber or null
      * when the serial number does not exist for the cartracker.
      */
-    @Override
     public TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker ct) {
         FindIterable<Document> iterable = getMongoDb().getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, ct.getId()).append(COLUMN_SERIALNUMBER, serialNumber));
         for (Document document : iterable) {
@@ -99,7 +97,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializabl
      * @param ct The cartracker containing the TrackingPeriods
      * @return The TrackingPeriods for the cartracker.
      */
-    @Override
     public List<TrackingPeriod> findAll(Cartracker ct) {
         // to prevent code duplication 
         return this.findAllPaginated(ct, 0, 9999999);
@@ -115,7 +112,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializabl
      * @return A list of TrackingPeriods from the specified cartracker between
      * the start and end date.
      */
-    @Override
     public List<TrackingPeriod> findByPeriod(Cartracker cartracker, Date startDate, Date endDate) {
         Document query = new Document("finishedTracking", new Document("$gte", startDate))
                 .append("startedTracking", new Document("$lte", endDate)).append(COLUMN_CARTRACKERID, cartracker.getId());
@@ -128,7 +124,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializabl
         return trackingPeriods;
     }
 
-    @Override
     public List<TrackingPeriod> findAllPaginated(Cartracker cartracker, int pageIndex, int pageSize) {
         FindIterable<Document> iterable = getMongoDb().getCollection(MONGO_COLLECTION).find(new Document(COLUMN_CARTRACKERID, cartracker.getId()));
         iterable.skip(pageIndex * pageSize);
@@ -140,7 +135,6 @@ public class TrackingPeriodDaoMongoImp implements TrackingPeriodDao, Serializabl
         return trackingPeriods;
     }
 
-    @Override
     public int countAll(Cartracker cartracker) {
         return (int) getMongoDb().getCollection(MONGO_COLLECTION).count(new Document(COLUMN_CARTRACKERID, cartracker.getId()));
     }
