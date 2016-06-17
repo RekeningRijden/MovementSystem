@@ -8,6 +8,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,7 +60,7 @@ public class EndPoint {
 
     private void sendMessageToUserSessions(Message message) {
         for (Map.Entry<Session, Long> entry : usersessions.entrySet()) {
-            if (entry.getValue() == message.getTrackerId()) {
+            if (Objects.equals(entry.getValue(), message.getTrackerId())) {
                 try {
                     entry.getKey().getBasicRemote().sendObject(message);
                 } catch (IOException | EncodeException ex) {
