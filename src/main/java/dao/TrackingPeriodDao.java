@@ -17,30 +17,46 @@ import java.util.List;
 public interface TrackingPeriodDao {
 
     /**
-     * Adds a new TrackingPeriod for an existing Cartracker
+     * Adds a new TrackingPeriod for an existing Cartracker.
      *
      * @param trackingPeriod The new trackingperiod
      * @param cartracker The existing cartracker
-     * @return The newly added cartracker
+     * @return The newly added cartracker.
      */
     TrackingPeriod create(TrackingPeriod trackingPeriod, Cartracker cartracker);
 
     /**
-     * Finds a TrackingPeriod based on it's serialnumber
+     * Finds a TrackingPeriod based on it's serialnumber.
      *
      * @param serialNumber The serialnumber of the Trackingperiod
      * @param cartracker The cartracker related to the Trackingperiod
-     * @return The TrackingPeriod with the corresponding serialnumber
+     * @return The TrackingPeriod with the corresponding serialnumber.
      */
     TrackingPeriod findBySerialNumber(Long serialNumber, Cartracker cartracker);
 
     /**
-     * Finds all TrackingPeriods for a specific Cartracker
+     * Finds all TrackingPeriods for a specific Cartracker.
      *
      * @param cartracker The cartracker containing the TrackingPeriods
-     * @return All the TrackingPeriods of the Cartracker
+     * @return All the TrackingPeriods of the Cartracker.
      */
     List<TrackingPeriod> findAll(Cartracker cartracker);
+    
+    /**
+     * Finds all paginated TrackingPeriods for a specific Cartracker 
+     * @param cartracker
+     * @param pageIndex
+     * @param pageSize
+     * @return 
+     */
+    List<TrackingPeriod> findAllPaginated(Cartracker cartracker, int pageIndex, int pageSize);
+    
+    /**
+     * Count all trackingperiods for a specific Cartracker
+     * @param cartracker
+     * @return 
+     */
+    int countAll(Cartracker cartracker);
 
     /**
      * Find all TrackingPeriods in a specific period.
@@ -48,7 +64,7 @@ public interface TrackingPeriodDao {
      * @param ct
      * @param startDate
      * @param endDate
-     * @return
+     * @return The TrackingPeriod with the corresponding Period.
      */
     List<TrackingPeriod> findByPeriod(Cartracker ct, Date startDate, Date endDate);
 }

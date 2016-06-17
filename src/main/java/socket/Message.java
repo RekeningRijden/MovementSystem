@@ -13,10 +13,10 @@ public class Message implements Serializable {
 
     private TrackingPeriod trackingPeriod;
 
-    private Long initTrackerId;
+    private boolean startSession;
 
     public Message() {
-        // create empty message
+        // Create empty message.
     }
 
     public Message(Long trackerId, TrackingPeriod trackingPeriod) {
@@ -40,11 +40,11 @@ public class Message implements Serializable {
         this.trackingPeriod = trackingPeriod;
     }
 
-    public Long getInitTrackerId() {
-        return initTrackerId;
+    public boolean isStartSession() {
+        return startSession;
     }
 
-    public void setInitTrackerId(Long initTrackerId) {
-        this.initTrackerId = initTrackerId;
+    public void setStartSession(boolean startSession) {
+        this.startSession = startSession;
     }
 }

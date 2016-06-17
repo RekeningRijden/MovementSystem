@@ -15,7 +15,7 @@ public class LongWrapper {
     }
 
     public LongWrapper() {
-        // create empty LongWrapper
+        // Create empty LongWrapper.
     }
 
     public void setValue(Long value) {

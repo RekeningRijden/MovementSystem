@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -24,17 +25,17 @@ public abstract class AbstractDao<T> {
     protected abstract Class<T> getEntityClass();
 
     /**
-     * @return Returns the entityManager
+     * @return the entityManager.
      */
     protected EntityManager getEntityManager() {
         return entityManager;
     }
 
     /**
-     * Adds the entity to the database
+     * Adds the entity to the database.
      *
      * @param entity The entity that will be added to the database
-     * @return The newly added entity
+     * @return The newly added entity.
      */
     public T create(T entity) {
         entityManager.persist(entity);
@@ -42,17 +43,17 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     * Updates an existing entity in the database
+     * Updates an existing entity in the database.
      *
      * @param entity The new entity to be persisted
-     * @return The updated entity
+     * @return The updated entity.
      */
     public T update(T entity) {
         return entityManager.merge(entity);
     }
 
     /**
-     * Deletes an entity from the database
+     * Deletes an entity from the database.
      *
      * @param entity The entity to remove from the database
      */
@@ -70,14 +71,15 @@ public abstract class AbstractDao<T> {
     }
 
     public int count() {
-        return entityManager.createNamedQuery(getEntityClass() + ".count", getEntityClass()).getResultList().size();
+        Query query = entityManager.createNamedQuery(getEntityClass().getSimpleName() + ".count", getEntityClass());
+        return (int) (long) query.getSingleResult();
     }
 
     /**
-     * Finds an entity by it's unique id
+     * Finds an entity by it's unique id.
      *
      * @param id The unique id of the entity
-     * @return The entity with the corresponding id
+     * @return The entity with the corresponding id.
      */
     public T findById(Object id) {
         return entityManager.find(getEntityClass(), id);
@@ -96,9 +98,26 @@ public abstract class AbstractDao<T> {
     }
 
     /**
+     * Get a paginated list of items.
+     * @param pageIndex
+     * @param pageSize
+     * @return 
+     */
+    public List<T> getAllPaginated(int pageIndex, int pageSize) {
+        CriteriaBuilder qb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<T> c = qb.createQuery(getEntityClass());
+        c.from(getEntityClass());
+
+        TypedQuery<T> query = entityManager.createQuery(c);
+        query.setFirstResult(pageIndex * pageSize);
+        query.setMaxResults(pageSize);
+        return query.getResultList();
+    }
+
+    /**
      * Remove all characters not allowed in a JPQL query from a String.
      *
-     * @param fieldName to remove the characters from.
+     * @param fieldName to remove the characters from
      * @return String left after character replacement.
      */
     protected String makeFieldNameJqplSafe(String fieldName) {

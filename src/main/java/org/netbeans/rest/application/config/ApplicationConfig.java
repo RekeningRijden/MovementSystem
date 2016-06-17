@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(resources.CartrackerResource.class);
+        resources.add(resources.CartrackerResourceV1.class);
     }
 
 }

@@ -7,6 +7,7 @@ package resources;
 
 import socket.Message;
 import wrappers.LongWrapper;
+import pagination.Pagination;
 import domain.Cartracker;
 import domain.TrackingPeriod;
 import socket.EndPoint;
@@ -35,13 +36,16 @@ import javax.ws.rs.core.Response;
 
 import service.CartrackerService;
 import service.TrackingPeriodService;
+import pagination.CartrackerPagination;
+import pagination.TrackingPeriodPagination;
+import util.ValidationHelper;
 
 /**
  * @author Eric
  */
-@Path("/trackers")
+@Path("/v1/trackers/")
 @Named
-public class CartrackerResource {
+public class CartrackerResourceV1 {
 
     @Inject
     private CartrackerService cartrackerService;
@@ -55,16 +59,23 @@ public class CartrackerResource {
     /**
      * Gets all cartrackers known in the database.
      *
+     * @param pageSize
      * @return All known cartrackers.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Cartracker> getAllTrackers() {
-        List<Cartracker> cartrackers = cartrackerService.getAll();
-        for (Cartracker cartracker : cartrackers) {
-            cartracker.setTrackingPeriods(this.getMovementsFromCartrackerWithId(cartracker.getId()));
+    public CartrackerPagination getAllTrackers(@QueryParam("pageIndex") String pageIndex, @QueryParam("pageSize") String pageSize) {
+        CartrackerPagination resultSet = new CartrackerPagination();
+        if (ValidationHelper.isInteger(pageIndex)) {
+            resultSet.setPageIndex(Integer.parseInt(pageIndex));
         }
-        return cartrackers;
+        if (ValidationHelper.isInteger(pageSize)) {
+            resultSet.setPageSize(Integer.parseInt(pageSize));
+        }
+        resultSet.setTotalCount(cartrackerService.count());
+        List<Cartracker> cartrackers = cartrackerService.getAllPaginated(resultSet.getPageIndex(), resultSet.getPageSize());
+        resultSet.setItems(cartrackers);
+        return resultSet;
     }
 
     @GET
@@ -85,9 +96,11 @@ public class CartrackerResource {
     @Path("/{trackerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Cartracker getCartrackerById(@PathParam("trackerId") Long trackerId) {
-        Cartracker tracker = cartrackerService.findById(trackerId);
-        tracker.setTrackingPeriods(trackingPeriodService.getAllTrackingPeriodsFromCartracker(tracker));
-        return tracker;
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        if (cartracker == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return cartracker;
     }
 
     /**
@@ -111,12 +124,21 @@ public class CartrackerResource {
     @GET
     @Path("/{trackerId}/movements")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TrackingPeriod> getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId) {
+    public TrackingPeriodPagination getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId, @QueryParam("pageIndex") String pageIndex, @QueryParam("pageSize") String pageSize) {
         Cartracker cartracker = cartrackerService.findById(trackerId);
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        return trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker);
+        TrackingPeriodPagination resultSet = new TrackingPeriodPagination();
+        if (ValidationHelper.isInteger(pageIndex)) {
+            resultSet.setPageIndex(Integer.parseInt(pageIndex));
+        }
+        if (ValidationHelper.isInteger(pageSize)) {
+            resultSet.setPageSize(Integer.parseInt(pageSize));
+        }
+        resultSet.setTotalCount(trackingPeriodService.countAllTrackingPeriodsFromCartracker(cartracker));
+        resultSet.setItems(trackingPeriodService.getAllTrackingPeriodsFromCartrackerPaginated(cartracker, resultSet.getPageIndex(), resultSet.getPageSize()));
+        return resultSet;
     }
 
     /**
@@ -140,7 +162,7 @@ public class CartrackerResource {
         try {
             return trackingPeriodService.getAllTrackingPeriodsByPeriod(cartracker, format.parse(startDate), format.parse(endDate));
         } catch (ParseException ex) {
-            Logger.getLogger(CartrackerResource.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CartrackerResourceV1.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new ArrayList<>();
     }
@@ -182,6 +204,11 @@ public class CartrackerResource {
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        return trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber, cartracker);
+        TrackingPeriod trackingPeriod = trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber, cartracker);
+        if (trackingPeriod == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriod;
     }
+
 }
