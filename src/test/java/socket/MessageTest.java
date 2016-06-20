@@ -17,8 +17,6 @@ import javax.inject.Inject;
 import javax.websocket.DecodeException;
 import javax.websocket.EncodeException;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * Created by martijn on 17-6-2016.
  */
@@ -56,11 +54,20 @@ public class MessageTest {
         TrackingPeriod trackingPeriod = new TrackingPeriod();
 
         Message testMessage = new Message(1L,trackingPeriod);
+        Message testMessage2 = new Message(2L,trackingPeriod);
 
         Gson gson = new GsonBuilder().create();
-        Message message = messageDecoder.decode(gson.toJson(testMessage));
 
-        Assert.assertEquals(gson.toJson(testMessage) ,messageEncoder.encode(message));
+        Message decMessage = messageDecoder.decode(gson.toJson(testMessage));
+        Assert.assertEquals("Original message is not equal to encoded message",gson.toJson(testMessage) ,messageEncoder.encode(decMessage));
+
+        decMessage = messageDecoder.decode(gson.toJson(testMessage2));
+        Assert.assertEquals("Original message is not equal to encoded message",gson.toJson(testMessage2), messageEncoder.encode(decMessage));
+        Assert.assertNotSame("Last encoded message is the same as first message",gson.toJson(testMessage), messageEncoder.encode(decMessage));
+
+        decMessage = messageDecoder.decode(gson.toJson(testMessage));
+        Assert.assertNotSame("Last encoded message is the same as second message",gson.toJson(testMessage2), messageEncoder.encode(decMessage));
+
 
     }
 
