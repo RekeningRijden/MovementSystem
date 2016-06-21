@@ -59,5 +59,4 @@ public class CartrackerTest {
         assertEquals((Long)2L,cartracker2.getId());
     }
     
-    
 }

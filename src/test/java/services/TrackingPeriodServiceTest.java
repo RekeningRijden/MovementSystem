@@ -1,6 +1,7 @@
 package services;
 
 import dao.MongoClientProvider;
+import dao.TrackingPeriodDao;
 import domain.Cartracker;
 import domain.TrackingPeriod;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -18,6 +19,7 @@ import sun.util.calendar.BaseCalendar;
 import javax.inject.Inject;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,9 +31,6 @@ public class TrackingPeriodServiceTest {
 
     @Inject
     private TrackingPeriodService trackingPeriodService;
-
-//    @Inject
-//    private MongoClientProvider mongoClientProvider;
 
     /**
      * @return a jar with all the classes used by Arquillian.
@@ -63,14 +62,46 @@ public class TrackingPeriodServiceTest {
     }
 
     @Test
-    public void getAllTrackingPeriodsTest() {
+    public void getAllTrackingPeriodsByPeriodTest() throws InterruptedException {
         Date date = new Date();
+        Thread.sleep(2000L);
         Date oldDate = new Date();
-
-        oldDate.setTime(date.getTime() - 1L);
 
         Cartracker cartracker = new Cartracker();
 
-        trackingPeriodService.getAllTrackingPeriodsByPeriod(cartracker,date,oldDate);
+        TrackingPeriod tp = new TrackingPeriod();
+        tp.setStartedTracking(date);
+        tp.setFinishedTracking(oldDate);
+        tp.setId(1L);
+        tp.setSerialNumber(9L);
+
+        TrackingPeriod tpResult = trackingPeriodService.addTrackingPeriodForCartracker(tp,cartracker);
+
+        List<TrackingPeriod> tps = trackingPeriodService.getAllTrackingPeriodsByPeriod(cartracker,date,oldDate);
+        assertEquals("TrackingPeriods list size not correct",1,tps.size());
+
+        assertEquals("TrackingPeriod ID are not equal",(Long)1L,tpResult.getId());
+    }
+
+    @Test
+    public void getAllTrackingPeriodsForCartrackerTest() {
+        Cartracker cartracker = new Cartracker();
+
+        List<TrackingPeriod> tps = trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker);
+
+        TrackingPeriod tp = new TrackingPeriod();
+        tp.setId(1L);
+
+        TrackingPeriod tp2 = new TrackingPeriod();
+        tp2.setId(2L);
+
+        TrackingPeriod tpResult = trackingPeriodService.addTrackingPeriodForCartracker(tp,cartracker);
+        assertEquals(tps.size() + 1,trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker).size());
+
+        TrackingPeriod tp2Result = trackingPeriodService.addTrackingPeriodForCartracker(tp2,cartracker);
+        assertEquals(tps.size() + 2,trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker).size());
+
+        tps = trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker);
+        assertEquals(tps.size(),trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker).size());
     }
 }
