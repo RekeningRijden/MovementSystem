@@ -55,7 +55,7 @@ public class TrackingPeriodService implements Serializable {
      * @return All TrackingPeriods from the specified cartracker.
      */
     public List<TrackingPeriod> getAllTrackingPeriodsFromCartracker(Cartracker cartracker) {
-        return null; //rackingPeriodDao.findAll(cartracker);
+        return trackingPeriodDao.findAll(cartracker);
     }
 
     /**
