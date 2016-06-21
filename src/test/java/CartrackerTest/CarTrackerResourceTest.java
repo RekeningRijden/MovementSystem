@@ -25,7 +25,6 @@ import resources.CartrackerResource;
 import service.CartrackerService;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 /**
  * @author Eric
@@ -140,7 +139,7 @@ public class CarTrackerResourceTest {
 //        assertEquals("Wrong first trackingPeriods received", cartracker.getMovements().get(0).getSerialNumber(), trackingPeriods.get(0).getSerialNumber());
 //        assertEquals("Wrong second trackingPeriods received", cartracker.getMovements().get(1).getSerialNumber(), trackingPeriods.get(1).getSerialNumber());
 //    }
-
+//
 //    @Test
 //    public void addTrackingPeriodTest() {
 //        //Build a CarTracker and add it to the database

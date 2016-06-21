@@ -31,8 +31,8 @@ public class CartrackerTest {
         assertSame(Long.parseLong("1"), cartracker.getId());
         
         /* Authorisationcode */
-        cartracker.setAuthorisationCode("hoi");
-        assertEquals("hoi", cartracker.getAuthorisationCode());
+        cartracker.setAuthorisationCode("testCode");
+        assertEquals("testCode", cartracker.getAuthorisationCode());
         
         /* Trackingperiods */
         List<TrackingPeriod> trackingPeriods = new ArrayList<>();
@@ -44,8 +44,19 @@ public class CartrackerTest {
 
     @Test
     public void testConstructer() {
-        Cartracker cartracker = new Cartracker("hoi");
-        assertEquals("hoi", cartracker.getAuthorisationCode());
+        Cartracker cartracker = new Cartracker("testCode");
+        cartracker.setId(1L);
+        assertEquals("testCode", cartracker.getAuthorisationCode());
+
+        Cartracker cartracker2 = new Cartracker("testCode2");
+        cartracker2.setId(2L);
+        assertEquals("testCode2", cartracker2.getAuthorisationCode());
+
+        assertNotSame("testCode", cartracker2.getAuthorisationCode());
+        assertNotSame("testCode2", cartracker.getAuthorisationCode());
+
+        assertEquals((Long)1L,cartracker.getId());
+        assertEquals((Long)2L,cartracker2.getId());
     }
     
     
