@@ -1,8 +1,12 @@
 package jms;
 
 import domain.Cartracker;
+import domain.Position;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -32,6 +36,9 @@ public class JMSHandler {
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(message);
             long cartrackerId = (long) json.get("cartrackerId");
+            JSONArray pos = (JSONArray) json.get("positions");
+            List<Position> positions = new ArrayList<>();
+            positions.addAll(pos);
             Cartracker cartracker = integrationService.getCartrackerById(cartrackerId);
             if(cartracker == null){
                 cartracker = new Cartracker();
@@ -39,7 +46,7 @@ public class JMSHandler {
                 cartracker = integrationService.createCartracker(cartracker);
             }
             
-            
+            integrationService.createTrackingPeriod(cartracker, positions);
         } catch (ParseException ex) {
             Logger.getLogger(JMSHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
