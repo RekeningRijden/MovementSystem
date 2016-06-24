@@ -7,7 +7,6 @@ package resources;
 
 import socket.Message;
 import wrappers.LongWrapper;
-import pagination.Pagination;
 import domain.Cartracker;
 import domain.TrackingPeriod;
 import socket.EndPoint;
@@ -36,14 +35,11 @@ import javax.ws.rs.core.Response;
 
 import service.CartrackerService;
 import service.TrackingPeriodService;
-import pagination.CartrackerPagination;
-import pagination.TrackingPeriodPagination;
-import util.ValidationHelper;
 
 /**
  * @author Eric
  */
-@Path("/v1/trackers/")
+@Path("/trackers/")
 @Named
 public class CartrackerResourceV1 {
 
@@ -58,24 +54,12 @@ public class CartrackerResourceV1 {
 
     /**
      * Gets all cartrackers known in the database.
-     *
-     * @param pageSize
      * @return All known cartrackers.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public CartrackerPagination getAllTrackers(@QueryParam("pageIndex") String pageIndex, @QueryParam("pageSize") String pageSize) {
-        CartrackerPagination resultSet = new CartrackerPagination();
-        if (ValidationHelper.isInteger(pageIndex)) {
-            resultSet.setPageIndex(Integer.parseInt(pageIndex));
-        }
-        if (ValidationHelper.isInteger(pageSize)) {
-            resultSet.setPageSize(Integer.parseInt(pageSize));
-        }
-        resultSet.setTotalCount(cartrackerService.count());
-        List<Cartracker> cartrackers = cartrackerService.getAllPaginated(resultSet.getPageIndex(), resultSet.getPageSize());
-        resultSet.setItems(cartrackers);
-        return resultSet;
+    public List<Cartracker> getAllTrackers() {
+        return cartrackerService.getAll();
     }
 
     @GET
@@ -124,21 +108,12 @@ public class CartrackerResourceV1 {
     @GET
     @Path("/{trackerId}/movements")
     @Produces(MediaType.APPLICATION_JSON)
-    public TrackingPeriodPagination getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId, @QueryParam("pageIndex") String pageIndex, @QueryParam("pageSize") String pageSize) {
+    public List<TrackingPeriod> getMovementsFromCartrackerWithId(@PathParam("trackerId") Long trackerId) {
         Cartracker cartracker = cartrackerService.findById(trackerId);
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        TrackingPeriodPagination resultSet = new TrackingPeriodPagination();
-        if (ValidationHelper.isInteger(pageIndex)) {
-            resultSet.setPageIndex(Integer.parseInt(pageIndex));
-        }
-        if (ValidationHelper.isInteger(pageSize)) {
-            resultSet.setPageSize(Integer.parseInt(pageSize));
-        }
-        resultSet.setTotalCount(trackingPeriodService.countAllTrackingPeriodsFromCartracker(cartracker));
-        resultSet.setItems(trackingPeriodService.getAllTrackingPeriodsFromCartrackerPaginated(cartracker, resultSet.getPageIndex(), resultSet.getPageSize()));
-        return resultSet;
+        return trackingPeriodService.getAllTrackingPeriodsFromCartracker(cartracker);
     }
 
     /**
@@ -146,6 +121,8 @@ public class CartrackerResourceV1 {
      * period.
      *
      * @param trackerId The id of the cartracker to get all movements from
+     * @param startDate
+     * @param endDate
      * @return All movements from a specific cartracker.
      */
     @GET

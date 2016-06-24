@@ -39,7 +39,7 @@ import service.TrackingPeriodService;
 /**
  * @author Eric
  */
-@Path("/trackers")
+@Path("/v0/trackers")
 @Named
 public class CartrackerResource {
 
