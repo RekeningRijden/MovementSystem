@@ -23,4 +23,9 @@ public abstract class CartrackerDao extends AbstractDao<Cartracker> {
         return getEntityManager().createQuery("SELECT c.id FROM Cartracker c", Long.class)
                 .getResultList();
     }
+
+    public void insert(Cartracker c) {
+        getEntityManager().createNativeQuery("insert into Cartracker values(?,?)").setParameter(1, c.getId()).setParameter(2, c.getAuthorisationCode())
+                .executeUpdate();
+    }
 }

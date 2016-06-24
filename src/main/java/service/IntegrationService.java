@@ -30,7 +30,8 @@ public class IntegrationService {
     }
 
     public Cartracker createCartracker(Cartracker cartracker) {
-        return cartrackerService.update(cartracker);
+        cartrackerService.insert(cartracker);
+        return cartrackerService.findById(cartracker.getId());
     }
     
     public void createTrackingPeriod(Cartracker cartracker, List<Position> positions){
