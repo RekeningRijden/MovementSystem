@@ -30,7 +30,7 @@ public class IntegrationService {
     }
 
     public Cartracker createCartracker(Cartracker cartracker) {
-        return cartrackerService.create(cartracker);
+        return cartrackerService.update(cartracker);
     }
     
     public void createTrackingPeriod(Cartracker cartracker, List<Position> positions){
