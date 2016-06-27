@@ -39,7 +39,7 @@ import service.TrackingPeriodService;
 /**
  * @author Eric
  */
-@Path("/v0/trackers")
+@Path("/trackers/")
 @Named
 public class CartrackerResource {
 
@@ -54,17 +54,12 @@ public class CartrackerResource {
 
     /**
      * Gets all cartrackers known in the database.
-     *
      * @return All known cartrackers.
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Cartracker> getAllTrackers() {
-        List<Cartracker> cartrackers = cartrackerService.getAll();
-        for (Cartracker cartracker : cartrackers) {
-            cartracker.setTrackingPeriods(this.getMovementsFromCartrackerWithId(cartracker.getId()));
-        }
-        return cartrackers;
+        return cartrackerService.getAll();
     }
 
     @GET
@@ -85,9 +80,11 @@ public class CartrackerResource {
     @Path("/{trackerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Cartracker getCartrackerById(@PathParam("trackerId") Long trackerId) {
-        Cartracker tracker = cartrackerService.findById(trackerId);
-        tracker.setTrackingPeriods(trackingPeriodService.getAllTrackingPeriodsFromCartracker(tracker));
-        return tracker;
+        Cartracker cartracker = cartrackerService.findById(trackerId);
+        if (cartracker == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return cartracker;
     }
 
     /**
@@ -124,6 +121,8 @@ public class CartrackerResource {
      * period.
      *
      * @param trackerId The id of the cartracker to get all movements from
+     * @param startDate
+     * @param endDate
      * @return All movements from a specific cartracker.
      */
     @GET
@@ -182,6 +181,11 @@ public class CartrackerResource {
         if (cartracker == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        return trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber, cartracker);
+        TrackingPeriod trackingPeriod = trackingPeriodService.getTrackingPeriodBySerialNumber(serialNumber, cartracker);
+        if (trackingPeriod == null) {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
+        return trackingPeriod;
     }
+
 }
