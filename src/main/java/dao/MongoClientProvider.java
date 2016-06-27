@@ -19,7 +19,6 @@ import javax.ejb.Singleton;
  * @author Sam
  */
 @Singleton
-//@ConcurrencyManagement(ConcurrencyManagementType.CONTAINER)
 public class MongoClientProvider implements Serializable {
 
     private MongoClient mongoClient = null;
